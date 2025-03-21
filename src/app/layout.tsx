@@ -6,6 +6,8 @@ import "rc-slider/assets/index.css";
 import Footer from "@/shared/Footer/Footer";
 import SiteHeader from "@/app/SiteHeader";
 import CommonClient from "./CommonClient";
+import { queryClient } from "@/lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,10 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en" dir="" className={poppins.className}>
       <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
-        <SiteHeader />
-        {children}
-        <CommonClient />
-        <Footer />
+        <QueryClientProvider client={queryClient}>
+          <SiteHeader />
+          {children}
+          <CommonClient />
+          <Footer />
+        </QueryClientProvider>
       </body>
     </html>
   );

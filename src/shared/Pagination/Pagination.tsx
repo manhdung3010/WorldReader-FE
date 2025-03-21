@@ -1,60 +1,86 @@
-import { CustomLink } from "@/data/types";
 import React, { FC } from "react";
 import twFocusClass from "@/utils/twFocusClass";
-import Link from "next/link";
-
-const DEMO_PAGINATION: CustomLink[] = [
-  {
-    label: "1",
-    href: "/",
-  },
-  {
-    label: "2",
-    href: "/",
-  },
-  {
-    label: "3",
-    href: "/",
-  },
-  {
-    label: "4",
-    href: "/",
-  },
-];
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
   className?: string;
 }
 
-const Pagination: FC<PaginationProps> = ({ className = "" }) => {
-  const renderItem = (pag: CustomLink, index: number) => {
-    if (index === 0) {
-      return (
-        <span
-          key={index}
-          className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-6000 text-white ${twFocusClass()}`}
-        >
-          {pag.label}
-        </span>
-      );
+const Pagination: FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = "",
+}) => {
+  const generatePages = () => {
+    const pages: (number | string)[] = [];
+    const showPages = 2; // Số trang lân cận được hiển thị
+
+    if (totalPages <= 7) {
+      // Nếu tổng số trang ít, hiển thị tất cả
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > showPages + 2) pages.push("...");
+      for (
+        let i = Math.max(2, currentPage - showPages);
+        i <= Math.min(totalPages - 1, currentPage + showPages);
+        i++
+      ) {
+        pages.push(i);
+      }
+      if (currentPage < totalPages - showPages - 1) pages.push("...");
+      pages.push(totalPages);
     }
-    // RETURN UNACTIVE PAGINATION
-    return (
-      <Link
-        key={index}
-        className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-6000 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 ${twFocusClass()}`}
-        href={pag.href}
-      >
-        {pag.label}
-      </Link>
-    );
+
+    return pages;
   };
 
   return (
     <nav
       className={`nc-Pagination inline-flex space-x-1 text-base font-medium ${className}`}
     >
-      {DEMO_PAGINATION.map(renderItem)}
+      {currentPage > 1 && (
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-neutral-200 hover:bg-neutral-100"
+        >
+          <ChevronLeftIcon className="w-5 h-5" />
+        </button>
+      )}
+      {generatePages().map((page, index) =>
+        typeof page === "number" ? (
+          <button
+            key={index}
+            onClick={() => onPageChange(page)}
+            className={`w-11 h-11 flex items-center justify-center rounded-full ${
+              currentPage === page
+                ? "bg-primary-6000 text-white"
+                : "bg-white border border-neutral-200 hover:bg-neutral-100"
+            } ${twFocusClass()}`}
+          >
+            {page}
+          </button>
+        ) : (
+          <span
+            key={index}
+            className="w-11 h-11 flex items-center justify-center text-neutral-500"
+          >
+            {page}
+          </span>
+        )
+      )}
+      {currentPage < totalPages && (
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-neutral-200 hover:bg-neutral-100"
+        >
+          <ChevronRightIcon className="w-5 h-5" />
+        </button>
+      )}
     </nav>
   );
 };

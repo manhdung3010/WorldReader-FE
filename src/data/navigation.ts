@@ -1,3 +1,4 @@
+import { useMegaMenuBooks } from "@/hooks/useMegaMenuBooks";
 import { NavItemType } from "@/shared/Navigation/NavigationItem";
 import ncNanoId from "@/utils/ncNanoId";
 
@@ -180,13 +181,20 @@ const OTHER_PAGE_CHILD: NavItemType[] = [
 export const NAVIGATION_DEMO_2: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/collection",
-    name: "Men",
+    href: "/",
+    name: "Home",
   },
   {
     id: ncNanoId(),
-    href: "/collection-2",
-    name: "Women",
+    href: "/news",
+    name: "News",
+  },
+  {
+    id: ncNanoId(),
+    href: "/collection",
+    name: "Templates",
+    type: "megaMenu",
+    children: MEGAMENU_TEMPLATES,
   },
   {
     id: ncNanoId(),
@@ -214,3 +222,53 @@ export const NAVIGATION_DEMO_2: NavItemType[] = [
     children: OTHER_PAGE_CHILD,
   },
 ];
+
+const useNavigationDemo = (): NavItemType[] => {
+  const { megaMenuBooks, isLoading } = useMegaMenuBooks();
+
+  return [
+    {
+      id: ncNanoId(),
+      href: "/",
+      name: "Home",
+    },
+    {
+      id: ncNanoId(),
+      href: "/news",
+      name: "News",
+    },
+    {
+      id: ncNanoId(),
+      href: "/collection",
+      name: "Books",
+      type: "megaMenu",
+      children: megaMenuBooks,
+    },
+    {
+      id: ncNanoId(),
+      href: "/collection",
+      name: "Collection",
+      type: "megaMenu",
+      children: MEGAMENU_TEMPLATES,
+    },
+    {
+      id: ncNanoId(),
+      href: "/collection",
+      name: "Beauty",
+    },
+    {
+      id: ncNanoId(),
+      href: "/collection-2",
+      name: "Sport",
+    },
+    {
+      id: ncNanoId(),
+      href: "/search",
+      name: "Explore",
+      type: "dropdown",
+      children: OTHER_PAGE_CHILD,
+    },
+  ];
+};
+
+export default useNavigationDemo;

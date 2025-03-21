@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import { PRODUCTS } from "@/data/data";
 import TabFilters from "@/components/TabFilters";
 
-const PageCollection = ({}) => {
+const BookCollection = ({}) => {
   return (
     <div className={`nc-PageCollection`}>
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
@@ -37,7 +37,7 @@ const PageCollection = ({}) => {
 
             {/* PAGINATION */}
             <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-              {/* <Pagination /> */}
+              <Pagination />
               <ButtonPrimary loading>Show me more</ButtonPrimary>
             </div>
           </main>
@@ -56,4 +56,4 @@ const PageCollection = ({}) => {
   );
 };
 
-export default PageCollection;
+export default BookCollection;

@@ -10,6 +10,7 @@ export interface CardCategory1Props {
   featuredImage?: string | StaticImageData;
   name?: string;
   desc?: string;
+  category?: any;
 }
 
 const CardCategory1: FC<CardCategory1Props> = ({
@@ -18,10 +19,11 @@ const CardCategory1: FC<CardCategory1Props> = ({
   name = "",
   desc = "",
   featuredImage = "",
+  category,
 }) => {
   return (
     <Link
-      href={"/collection"}
+      href={`/news/category/${category?.url}` as any}
       className={`nc-CardCategory1 flex items-center ${className}`}
     >
       <NcImage
@@ -29,7 +31,7 @@ const CardCategory1: FC<CardCategory1Props> = ({
         containerClassName={`flex-shrink-0 relative ${
           size === "large" ? "w-20 h-20" : "w-12 h-12"
         } rounded-lg mr-4 overflow-hidden`}
-        src={featuredImage || _getImgRd()}
+        src={category?.image || _getImgRd()}
         sizes="(max-width: 640px) 100vw, 40vw"
         fill
       />
@@ -39,14 +41,14 @@ const CardCategory1: FC<CardCategory1Props> = ({
             size === "large" ? "text-lg" : "text-base"
           } nc-card-title text-neutral-900 dark:text-neutral-100 font-semibold`}
         >
-          {name || _getTagNameRd()}
+          {category?.name || _getTagNameRd()}
         </h2>
         <span
           className={`${
             size === "large" ? "text-sm" : "text-xs"
           } block mt-[2px] text-neutral-500 dark:text-neutral-400`}
         >
-          {desc}
+          {category?.description}
         </span>
       </div>
     </Link>
