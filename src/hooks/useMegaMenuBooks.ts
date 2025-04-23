@@ -23,12 +23,12 @@ export const useMegaMenuBooks = () => {
 
     const menuItems = category?.data?.map((item: any) => ({
       id: item.id || ncNanoId(),
-      href: item.url || "#",
+      href: `/category/${item.url}` || "#",
       name: item.name || "Unnamed Category",
       children: Array.isArray(item.children)
         ? item.children.map((child: any) => ({
             id: child.id || ncNanoId(),
-            href: child.url || "#",
+            href: `/category/${child.url}` || "#",
             name: child.name || "Unnamed Child",
             isNew: !!child.isNew,
           }))

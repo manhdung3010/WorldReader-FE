@@ -8,6 +8,8 @@ import SiteHeader from "@/app/SiteHeader";
 import CommonClient from "./CommonClient";
 import { queryClient } from "@/lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { LikeProvider } from "@/context/LikeContext";
+import { CartProvider } from "@/context/CartContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,7 +29,9 @@ export default function RootLayout({
       <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
         <QueryClientProvider client={queryClient}>
           <SiteHeader />
-          {children}
+          <LikeProvider>
+            <CartProvider>{children}</CartProvider>
+          </LikeProvider>
           <CommonClient />
           <Footer />
         </QueryClientProvider>

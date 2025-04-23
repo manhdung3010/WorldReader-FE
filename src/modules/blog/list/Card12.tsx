@@ -60,8 +60,8 @@ const Card12: FC<Card12Props> = ({ className = "h-full", post, isLoading }) => {
             dangerouslySetInnerHTML={{
               __html:
                 post?.content?.length > 100
-                  ? post.content.slice(0, 100) + "..."
-                  : post.content,
+                  ? post?.content.slice(0, 100) + "..."
+                  : post?.content,
             }}
           />
         </span>

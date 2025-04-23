@@ -239,7 +239,7 @@ const useNavigationDemo = (): NavItemType[] => {
     },
     {
       id: ncNanoId(),
-      href: "/collection",
+      href: "/books",
       name: "Books",
       type: "megaMenu",
       children: megaMenuBooks,

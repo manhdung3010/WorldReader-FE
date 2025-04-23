@@ -12,6 +12,8 @@ export interface CollectionCard2Props {
   name?: string;
   price?: number;
   description?: string;
+  averageStarRating?: any;
+  url?: string;
 }
 
 const CollectionCard2: FC<CollectionCard2Props> = ({
@@ -19,7 +21,9 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
   imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
   name = "Product Name",
   description = "Product Description",
+  averageStarRating = 4.9,
   price,
+  url,
 }) => {
   return (
     <div className={`CollectionCard2 group relative ${className}`}>
@@ -62,19 +66,15 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
           <h2 className="font-semibold text-lg sm:text-xl ">{name}</h2>
           {/* AUTHOR */}
           <div className="mt-3 flex items-center text-slate-500 dark:text-slate-400">
-            <span className="text-sm ">
-              <span className="line-clamp-1">{description}</span>
-            </span>
-            <span className="h-5 mx-1 sm:mx-2 border-l border-slate-200 dark:border-slate-700"></span>
             <StarIcon className="w-4 h-4 text-orange-400" />
             <span className="text-sm ml-1 ">
-              <span className="line-clamp-1">4.9 (269 reviews)</span>
+              <span className="line-clamp-1">{averageStarRating} </span>
             </span>
           </div>
         </div>
         <Prices className="mt-0.5 sm:mt-1 ml-4" price={price} />
       </div>
-      <Link href={"/product-detail-2"} className="absolute inset-0 "></Link>
+      <Link  href={`/books/${url}`} className="absolute inset-0 "></Link>
     </div>
   );
 };

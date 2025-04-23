@@ -3,31 +3,22 @@ import { Transition } from "@/app/headlessui";
 import Prices from "@/components/Prices";
 import { PRODUCTS } from "@/data/data";
 import Image, { StaticImageData } from "next/image";
+import { formatPrice } from "@/utils/price";
 
 interface Props {
   show: boolean;
-  productImage: string | StaticImageData;
-  variantActive: number;
-  sizeSelected: string;
+  data: any;
   qualitySelected: number;
 }
 
-const NotifyAddTocart: FC<Props> = ({
-  show,
-  productImage,
-  variantActive,
-  qualitySelected,
-  sizeSelected,
-}) => {
-  const { name, price, variants } = PRODUCTS[0];
-
+const NotifyAddTocart: FC<Props> = ({ show, data, qualitySelected }) => {
   const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
         <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <Image
-            src={productImage}
-            alt={name}
+            src={data?.avatar}
+            alt={data?.name}
             fill
             sizes="100px"
             className="h-full w-full object-contain object-center"
@@ -38,16 +29,14 @@ const NotifyAddTocart: FC<Props> = ({
           <div>
             <div className="flex justify-between ">
               <div>
-                <h3 className="text-base font-medium ">{name}</h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>
-                    {variants ? variants[variantActive].name : `Natural`}
-                  </span>
-                  <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{sizeSelected || "XL"}</span>
-                </p>
+                <h3 className="text-base font-medium ">{data?.name}</h3>
               </div>
-              <Prices price={price} className="mt-0.5" />
+              <Prices
+                price={formatPrice(
+                  data?.price * (1 - Number(data?.perDiscount) / 100)
+                )}
+                className="mt-0.5"
+              />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">

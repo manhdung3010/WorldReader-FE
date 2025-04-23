@@ -1,13 +1,14 @@
 "use client";
 
-import React, { FC, useEffect, useId, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Heading from "@/components/Heading/Heading";
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm";
 import CollectionCard from "./CollectionCard";
 import CollectionCard2 from "./CollectionCard2";
-import { DEMO_LARGE_PRODUCTS } from "./SectionSliderLargeProduct2";
 import Link from "next/link";
+import { getProductByExpert } from "@/services/product.service";
+import { useQuery } from "@tanstack/react-query";
 
 export interface SectionSliderLargeProductProps {
   className?: string;
@@ -19,8 +20,19 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
   className = "",
   cardStyle = "style2",
 }) => {
-  const sliderRef = useRef(null);
+  const {
+    data: productsResponse,
+    isLoading,
+    isError,
+  } = useQuery<any>(["PRODUCTS_BY_EXPERT"], () => getProductByExpert(5), {
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+  });
 
+  // Extract products from the response
+  const products = productsResponse?.data || [];
+
+  const sliderRef = useRef(null);
   const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
@@ -41,7 +53,6 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
           gap: 20,
           perView: 1.5,
         },
-
         500: {
           gap: 20,
           perView: 1,
@@ -56,10 +67,26 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
     return () => {
       slider.destroy();
     };
-  }, [sliderRef]);
+  }, [sliderRef, products]); // Added products to dependency array to reinitialize slider when products load
 
   const MyCollectionCard =
     cardStyle === "style1" ? CollectionCard : CollectionCard2;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-80">
+        Loading products...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-80">
+        Error loading products. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className={`nc-SectionSliderLargeProduct ${className}`}>
@@ -69,22 +96,23 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
         </Heading>
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {DEMO_LARGE_PRODUCTS.map((product, index) => (
-              <li className={`glide__slide`} key={index}>
+            {products.map((product: any) => (
+              <li className={`glide__slide`} key={product.id}>
                 <MyCollectionCard
                   name={product.name}
                   price={product.price}
-                  imgs={product.images}
-                  description={product.desc}
+                  imgs={product.image || []}
+                  averageStarRating={product.averageStarRating}
+                  url={product.url}
                 />
               </li>
             ))}
 
-            <li className={`glide__slide   `}>
+            <li className={`glide__slide`}>
               <Link href={"/search"} className="block relative group">
                 <div className="relative rounded-2xl overflow-hidden h-[410px]">
                   <div className="h-[410px] bg-black/5 dark:bg-neutral-800"></div>
-                  <div className="absolute inset-y-6 inset-x-10  flex flex-col items-center justify-center">
+                  <div className="absolute inset-y-6 inset-x-10 flex flex-col items-center justify-center">
                     <div className="flex items-center justify-center relative">
                       <span className="text-xl font-semibold">More items</span>
                       <svg

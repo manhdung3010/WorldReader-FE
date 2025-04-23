@@ -1,27 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { useLike } from "@/context/LikeContext"; // Import hook từ context
 
 export interface LikeButtonProps {
   className?: string;
-  liked?: boolean;
+  data: any;
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({
-  className = "",
-  liked = false,
-}) => {
-  const [isLiked, setIsLiked] = useState(liked);
-
-  // make random for demo
-  useEffect(() => {
-    setIsLiked(Math.random() > 0.5);
-  }, []);
+const LikeButton: React.FC<LikeButtonProps> = ({ className = "", data }) => {
+  const { likedProducts, toggleLike } = useLike();
+  const isLiked = likedProducts.some((p) => p.id === data.id);
 
   return (
     <button
       className={`w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-slate-900 text-neutral-700 dark:text-slate-200 nc-shadow-lg ${className}`}
-      onClick={() => setIsLiked(!isLiked)}
+      onClick={() => toggleLike(data)}
     >
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path
