@@ -10,6 +10,6 @@ export function getProductRecommend(params: { product_id: string; k: number }) {
   return axiosClient.get("ai/recommend", { params: filteredParams });
 }
 
-export function getRecommendFavorites(id: any, payload: any) {
-  return axiosClient.post(`ai/recommend/favorites/${id}`, payload);
+export function getRecommendFavorites( payload: any) {
+  return axiosClient.post(`ai/recommend/favorites`, payload);
 }

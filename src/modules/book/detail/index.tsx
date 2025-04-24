@@ -290,7 +290,7 @@ const ProductDetailPage = () => {
         <div className="mt-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-11 gap-x-28">
             {reviews.length > 0 ? (
-              reviews.map((review) => (
+              reviews.map((review: any) => (
                 <ReviewItem
                   key={review.id}
                   data={{

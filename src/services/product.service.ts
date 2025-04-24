@@ -13,9 +13,10 @@ export function getProduct(params: {
   pageSize: number;
 }) {
   const filteredParams = Object.fromEntries(
-    Object.entries(params).filter(
-      ([_, value]) => value !== "" && value !== null && value !== undefined
-    )
+    Object.entries(params).filter(([_, value]) => {
+      if (typeof value === "string") return value !== "";
+      return value !== null && value !== undefined;
+    })
   );
 
   return axiosClient.get("public/products", { params: filteredParams });
@@ -24,7 +25,6 @@ export function getProduct(params: {
 export function getProductByExpert(size: any) {
   return axiosClient.get(`public/products/random-chosen-by-experts/${size}`);
 }
-
 
 export function getDetailProduct(id: any) {
   return axiosClient.get(`public/products/${id}`);
@@ -50,7 +50,10 @@ export function getProductByKeyword({ keywordCode, params }: any) {
 
 export function getProductByCategory({ urlCategory, params }: any) {
   const filteredParams = Object.fromEntries(
-    Object.entries(params).filter(([_, value]) => value !== null)
+    Object.entries(params).filter(([_, value]) => {
+      if (typeof value === "string") return value !== "";
+      return value !== null && value !== undefined;
+    })
   );
 
   return axiosClient.get(`public/products/findByCategory/${urlCategory}`, {
@@ -66,6 +69,10 @@ export function getReviewProduct(id: any, params: any) {
   return axiosClient.get(`public/reviews-product/findByProductId/${id}`, {
     params: filteredParams,
   });
+}
+
+export function getDetailCategoryProductByUrl(url: any) {
+  return axiosClient.get(`public/category-product/findByUrl/${url}`);
 }
 
 export function createReviewProduct(payload: any) {

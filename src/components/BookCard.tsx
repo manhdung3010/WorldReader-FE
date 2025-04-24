@@ -18,6 +18,7 @@ import BagIcon from "./BagIcon";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/CartContext";
+import BookFalse from "@/images/book-false.jpg";
 
 export interface ProductCardProps {
   className?: string;
@@ -92,7 +93,7 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
           <Image
             width={80}
             height={96}
-            src={data?.avatar || "/public/book-false.jpg"}
+            src={data?.avatar || BookFalse}
             alt={data?.name || "Product"}
             className="absolute object-cover object-center"
           />
@@ -105,9 +106,7 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
                 <h3 className="text-base font-medium ">{data?.name}</h3>
               </div>
               <Prices
-                price={formatPrice(
-                  data?.price * (1 - Number(data?.perDiscount) / 100)
-                )}
+                price={data?.price * (1 - Number(data?.perDiscount) / 100)}
                 className="mt-0.5"
               />
             </div>
@@ -162,7 +161,7 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
           <Link href={`/books/${data?.url}`} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
-              src={data?.avatar || "/public/book-false.jpg"}
+              src={data?.avatar || BookFalse}
               className="object-cover w-full h-full drop-shadow-xl"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"

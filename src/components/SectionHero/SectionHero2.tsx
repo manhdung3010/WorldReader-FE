@@ -27,7 +27,6 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
     },
     isRunning ? 5500 : null
   );
-  //
 
   const handleAutoNext = () => {
     setIndexActive((state) => {
@@ -126,7 +125,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
           <Image
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="absolute w-full h-full object-contain"
+            className="absolute w-[full] h-full object-contain"
             src={backgroundLineSvg}
             alt="hero"
           />
@@ -171,7 +170,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
               </span>
             </ButtonPrimary>
           </div>
-          <div className="mt-10 lg:mt-0 lg:absolute end-0 rtl:-end-28 bottom-0 top-0 w-full max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
+          <div className="mt-10  lg:mt-0 lg:absolute end-0 rtl:-end-28 bottom-0 top-0 w-full max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
             <Image
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

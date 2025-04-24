@@ -15,23 +15,25 @@ interface Hero2DataType {
 export const HERO2_DEMO_DATA: Hero2DataType[] = [
   {
     image: imageRightPng2,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
+    heading: "Meet the Minds Behind the Masterpieces",
+    subHeading:
+      "Discover the authors who shaped generations through their words 📖",
+    btnText: "Browse Books",
+    btnLink: "/books",
   },
   {
     image: imageRightPng3,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
+    heading: "Voices That Inspire Millions",
+    subHeading:
+      "From timeless classics to bold new stories — meet the creators ✨",
+    btnText: "Explore Authors",
+    btnLink: "/books",
   },
   {
     image: imageRightPng,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
+    heading: "Behind Every Great Book is a Great Author",
+    subHeading: "Get to know the storytellers that made history 🔥",
+    btnText: "Read Their Works",
+    btnLink: "/books",
   },
 ];

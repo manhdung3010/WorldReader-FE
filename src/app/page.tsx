@@ -5,17 +5,19 @@ import SectionPromo1 from "@/components/SectionPromo1";
 import SectionHero2 from "@/components/SectionHero/SectionHero2";
 import SectionSliderLargeProduct from "@/components/SectionSliderLargeProduct";
 import SectionSliderProductCard from "@/components/SectionSliderProductCard";
-import DiscoverMoreSlider from "@/components/DiscoverMoreSlider";
-import SectionGridMoreExplore from "@/components/SectionGridMoreExplore/SectionGridMoreExplore";
 import SectionPromo2 from "@/components/SectionPromo2";
 import SectionSliderCategories from "@/components/SectionSliderCategories/SectionSliderCategories";
 import SectionPromo3 from "@/components/SectionPromo3";
 import SectionClientSay from "@/components/SectionClientSay/SectionClientSay";
 import Heading from "@/components/Heading/Heading";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import { PRODUCTS, SPORT_PRODUCTS } from "@/data/data";
 import SectionGridFeatureItems from "@/components/SectionGridFeatureItems";
 import SectionMagazine5 from "@/app/blog/SectionMagazine5";
+import FlashSale from "@/modules/home/flash-sale";
+import DiscoverMoreSlider from "@/modules/home/discover-slider";
+import SectionGridMoreExplore from "@/modules/home/exploring";
+import RecommendProduct from "@/modules/home/recommend-product";
+import ProductHomeList from "@/modules/home/product-list";
 
 function PageHome() {
   return (
@@ -27,15 +29,7 @@ function PageHome() {
       </div>
 
       <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-        <SectionSliderProductCard
-          data={[
-            PRODUCTS[4],
-            SPORT_PRODUCTS[5],
-            PRODUCTS[7],
-            SPORT_PRODUCTS[1],
-            PRODUCTS[6],
-          ]}
-        />
+        <FlashSale />
 
         <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
           <SectionHowItWork />
@@ -47,20 +41,18 @@ function PageHome() {
           <SectionGridMoreExplore />
         </div>
 
-        <SectionSliderProductCard
-          heading="Best Sellers"
-          subHeading="Best selling of the month"
+        <RecommendProduct
+          heading="Recommended For You"
+          subHeading="Based on your favorites"
         />
 
         <SectionPromo2 />
 
         <SectionSliderLargeProduct cardStyle="style2" />
 
-        <SectionSliderCategories />
-
         <SectionPromo3 />
 
-        <SectionGridFeatureItems />
+        <ProductHomeList />
 
         <div className="relative py-24 lg:py-32">
           <BackgroundSection />

@@ -10,7 +10,7 @@ export interface LikeButtonProps {
 
 const LikeButton: React.FC<LikeButtonProps> = ({ className = "", data }) => {
   const { likedProducts, toggleLike } = useLike();
-  const isLiked = likedProducts.some((p) => p.id === data.id);
+  const isLiked = likedProducts.some((p) => p.id === data?.id);
 
   return (
     <button
