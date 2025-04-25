@@ -50,11 +50,16 @@ export default function LoginForm() {
         return;
       }
 
-      console.log(response.data);
+      // Extract user data from response
+      const { accessToken, ...userData } = response.data;
 
-      authLogin(response.data.accessToken, { ...response.data });
+      // Use the auth context to handle login
+      authLogin(accessToken, userData);
 
+      // Show success message only once
       toast.success("Logged in successfully!");
+
+      // Navigate to home page
       router.push("/");
     },
     onError: (error: any) => {

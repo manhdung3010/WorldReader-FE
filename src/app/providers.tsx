@@ -19,10 +19,7 @@ export default function Providers({ children }: ProvidersProps) {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
-          <LikeProvider>
-            {children}
-            <Toaster position="top-right" />
-          </LikeProvider>
+          <LikeProvider>{children}</LikeProvider>
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>

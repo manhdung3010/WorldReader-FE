@@ -15,7 +15,6 @@ import {
 import IconDiscount from "@/components/IconDiscount";
 import Prices from "@/components/Prices";
 import toast from "react-hot-toast";
-import SectionSliderProductCard from "@/components/SectionSliderProductCard";
 import detail1JPG from "@/images/products/detail1.jpg";
 import detail2JPG from "@/images/products/detail2.jpg";
 import detail3JPG from "@/images/products/detail3.jpg";
@@ -37,6 +36,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Transition } from "@headlessui/react";
 import { formatPrice } from "@/utils/price";
 import Discount from "@/components/Discount";
+import SectionSliderProductCard from "./SectionSliderProductCard";
 
 const ProductDetailPage = () => {
   const queryClient = useQueryClient();
@@ -388,7 +388,8 @@ const ProductDetailPage = () => {
 
           {/* OTHER SECTION */}
           <SectionSliderProductCard
-            heading="Customers also purchased"
+            productId={productDetail?.data?.id}
+            heading="Similar products"
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"

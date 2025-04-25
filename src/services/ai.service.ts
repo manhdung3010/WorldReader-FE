@@ -1,6 +1,6 @@
 import axiosClient from ".";
 
-export function getProductRecommend(params: { product_id: string; k: number }) {
+export function getProductRecommend(params: { product_id: any; k: number }) {
   const filteredParams = Object.fromEntries(
     Object.entries(params).filter(
       ([_, value]) => value !== "" && value !== null && value !== undefined
@@ -10,6 +10,6 @@ export function getProductRecommend(params: { product_id: string; k: number }) {
   return axiosClient.get("ai/recommend", { params: filteredParams });
 }
 
-export function getRecommendFavorites( payload: any) {
+export function getRecommendFavorites(payload: any) {
   return axiosClient.post(`ai/recommend/favorites`, payload);
 }

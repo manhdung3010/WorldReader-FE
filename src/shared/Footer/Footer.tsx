@@ -11,43 +11,42 @@ export interface WidgetFooterMenu {
 
 const widgetMenus: WidgetFooterMenu[] = [
   {
-    id: "5",
-    title: "Getting started",
-    menus: [
-      { href: "/", label: "Release Notes" },
-      { href: "/", label: "Upgrade Guide" },
-      { href: "/", label: "Browser Support" },
-      { href: "/", label: "Dark Mode" },
-    ],
-  },
-  {
     id: "1",
     title: "Explore",
     menus: [
-      { href: "/", label: "Prototyping" },
-      { href: "/", label: "Design systems" },
-      { href: "/", label: "Pricing" },
-      { href: "/", label: "Security" },
+      { href: "/library", label: "Library" },
+      { href: "/books", label: "Books" },
+      { href: "/authors", label: "Authors" },
+      { href: "/news", label: "News" },
     ],
   },
   {
     id: "2",
-    title: "Resources",
+    title: "Support",
     menus: [
-      { href: "/", label: "Best practices" },
-      { href: "/", label: "Support" },
-      { href: "/", label: "Developers" },
-      { href: "/", label: "Learn design" },
+      { href: "/help", label: "Help Center" },
+      { href: "/contact", label: "Contact Us" },
+      { href: "/faq", label: "FAQ" },
+    ],
+  },
+  {
+    id: "3",
+    title: "Company",
+    menus: [
+      { href: "/about", label: "About Us" },
+      { href: "/careers", label: "Careers" },
+      { href: "/press", label: "Press" },
+      { href: "/partners", label: "Partners" },
     ],
   },
   {
     id: "4",
-    title: "Community",
+    title: "Legal",
     menus: [
-      { href: "/", label: "Discussion Forums" },
-      { href: "/", label: "Code of Conduct" },
-      { href: "/", label: "Contributing" },
-      { href: "/", label: "API Reference" },
+      { href: "/terms", label: "Terms of Service" },
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/security", label: "Security" },
+      { href: "/cookies", label: "Cookie Policy" },
     ],
   },
 ];
@@ -90,6 +89,27 @@ const Footer: React.FC = () => {
           </div>
         </div>
         {widgetMenus.map(renderWidgetMenuItem)}
+      </div>
+      <div className="container mt-10 pt-10 border-t border-neutral-200 dark:border-neutral-700">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            © {new Date().getFullYear()} WorldReader. All rights reserved.
+          </p>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <a
+              href="/pricing"
+              className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+            >
+              Pricing
+            </a>
+            <a
+              href="/subscription"
+              className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+            >
+              Subscription
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
