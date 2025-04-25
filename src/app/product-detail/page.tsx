@@ -40,20 +40,20 @@ const ProductDetailPage = () => {
     useState(false);
 
   //
-  const notifyAddTocart = () => {
-    toast.custom(
-      (t) => (
-        <NotifyAddTocart
-          productImage={image}
-          qualitySelected={qualitySelected}
-          show={t.visible}
-          sizeSelected={sizeSelected}
-          variantActive={variantActive}
-        />
-      ),
-      { position: "top-right", id: "nc-product-notify", duration: 3000 }
-    );
-  };
+  // const notifyAddTocart = () => {
+  //   toast.custom(
+  //     (t) => (
+  //       <NotifyAddTocart
+  //         productImage={image}
+  //         qualitySelected={qualitySelected}
+  //         show={t.visible}
+  //         sizeSelected={sizeSelected}
+  //         variantActive={variantActive}
+  //       />
+  //     ),
+  //     { position: "top-right", id: "nc-product-notify", duration: 3000 }
+  //   );
+  // };
 
   const renderVariants = () => {
     if (!variants || !variants.length) {
@@ -253,7 +253,7 @@ const ProductDetailPage = () => {
           </div>
           <ButtonPrimary
             className="flex-1 flex-shrink-0"
-            onClick={notifyAddTocart}
+            // onClick={notifyAddTocart}
           >
             <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
             <span className="ml-3">Add to cart</span>
@@ -378,7 +378,7 @@ const ProductDetailPage = () => {
               </div>
               {renderStatus()}
               {/* META FAVORITES */}
-              <LikeButton className="absolute right-3 top-3 " />
+              {/* <LikeButton className="absolute right-3 top-3 " /> */}
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {[LIST_IMAGES_DEMO[1], LIST_IMAGES_DEMO[2]].map((item, index) => {

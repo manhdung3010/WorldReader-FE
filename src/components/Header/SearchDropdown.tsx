@@ -1,13 +1,17 @@
 import { Popover, Transition } from "@/app/headlessui";
 import Input from "@/shared/Input/Input";
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   className?: string;
 }
 
 const SearchDropdown: FC<Props> = ({ className = "" }) => {
-  const inputRef = React.createRef<HTMLInputElement>();
+  const [open, setOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   return (
     <React.Fragment>
@@ -60,11 +64,23 @@ const SearchDropdown: FC<Props> = ({ className = "" }) => {
                   static
                   className="absolute right-0 z-10 w-screen max-w-sm mt-3"
                 >
-                  <form action="" method="POST">
+                  <form
+                    action=""
+                    method="POST"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      router.push(
+                        `/search?name=${encodeURIComponent(searchInput)}`
+                      );
+                      setOpen(false);
+                    }}
+                  >
                     <Input
                       ref={inputRef}
                       type="search"
                       placeholder="Type and press enter"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
                     />
                     <input type="submit" hidden value="" />
                   </form>

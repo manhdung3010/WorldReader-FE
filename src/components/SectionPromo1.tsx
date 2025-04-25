@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
-import rightImgDemo from "@/images/rightLargeImg.png";
+import rightImgDemo from "@/images/SVG-subcribe2.png";
 import rightLargeImgDark from "@/images/rightLargeImgDark.png";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Logo from "@/shared/Logo/Logo";

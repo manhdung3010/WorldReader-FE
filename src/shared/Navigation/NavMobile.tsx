@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ButtonClose from "@/shared/ButtonClose/ButtonClose";
 import Logo from "@/shared/Logo/Logo";
 import { Disclosure } from "@/app/headlessui";
@@ -11,6 +11,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import SwitchDarkMode from "@/shared/SwitchDarkMode/SwitchDarkMode";
 import Link from "next/link";
 import useNavigationDemo from "@/data/navigation";
+import { useRouter } from "next/navigation";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -18,6 +19,9 @@ export interface NavMobileProps {
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
+  const [searchInput, setSearchInput] = useState("");
+  const router = useRouter();
+
   const _renderMenuChild = (
     item: NavItemType,
     itemClass = " pl-3 text-neutral-900 dark:text-neutral-200 font-medium "
@@ -145,6 +149,11 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
         action=""
         method="POST"
         className="flex-1 text-slate-900 dark:text-slate-200"
+        onSubmit={(e) => {
+          e.preventDefault();
+          router.push(`/search?name=${encodeURIComponent(searchInput)}`);
+          if (onClickClose) onClickClose();
+        }}
       >
         <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1 py-2 px-4 rounded-xl h-full">
           {renderMagnifyingGlassIcon()}
@@ -152,6 +161,8 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
             type="search"
             placeholder="Type and press enter"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-sm "
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
         <input type="submit" hidden value="" />

@@ -6,26 +6,26 @@ import { CardCategory3Props } from "./CardCategory3";
 
 export const CATS_DISCOVER: CardCategory3Props[] = [
   {
-    name: "Explore new arrivals",
-    desc: "Shop the latest <br /> from top brands",
+    name: "New Releases",
+    desc: "Discover the latest <br /> must-read books",
     featuredImage: img1,
     color: "bg-yellow-50",
   },
   {
-    name: "Digital gift cards",
-    desc: "Give the gift <br /> of choice",
+    name: "Gift a Book",
+    desc: "Perfect books to <br /> share and surprise",
     featuredImage: img2,
     color: "bg-red-50",
   },
   {
-    name: "Sale collection",
-    desc: "Up to <br /> 80% off retail",
+    name: "Deals & Discounts",
+    desc: "Save up to <br /> 80% on select titles",
     featuredImage: img3,
     color: "bg-blue-50",
   },
   {
-    name: "Sale collection",
-    desc: "Up to <br /> 80% off retail",
+    name: "Top Picks",
+    desc: "Editor’s choice <br /> and bestsellers",
     featuredImage: img4,
     color: "bg-green-50",
   },

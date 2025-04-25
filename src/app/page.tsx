@@ -12,12 +12,13 @@ import SectionClientSay from "@/components/SectionClientSay/SectionClientSay";
 import Heading from "@/components/Heading/Heading";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import SectionGridFeatureItems from "@/components/SectionGridFeatureItems";
-import SectionMagazine5 from "@/app/blog/SectionMagazine5";
 import FlashSale from "@/modules/home/flash-sale";
 import DiscoverMoreSlider from "@/modules/home/discover-slider";
 import SectionGridMoreExplore from "@/modules/home/exploring";
 import RecommendProduct from "@/modules/home/recommend-product";
 import ProductHomeList from "@/modules/home/product-list";
+import Link from "next/link";
+import SectionMagazine5 from "@/modules/blog/list/SectionMagazine5";
 
 function PageHome() {
   return (
@@ -57,12 +58,14 @@ function PageHome() {
         <div className="relative py-24 lg:py-32">
           <BackgroundSection />
           <div>
-            <Heading rightDescText="From the Ciseco blog">
+            <Heading rightDescText="From the World Reader blog">
               The latest news
             </Heading>
             <SectionMagazine5 />
             <div className="flex mt-16 justify-center">
-              <ButtonSecondary>Show all blog articles</ButtonSecondary>
+              <Link href={"/news"}>
+                <ButtonSecondary>Show all blog articles</ButtonSecondary>
+              </Link>
             </div>
           </div>
         </div>

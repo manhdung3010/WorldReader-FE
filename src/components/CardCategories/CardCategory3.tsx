@@ -20,10 +20,7 @@ const CardCategory3: FC<CardCategory3Props> = ({
   color = CATS_DISCOVER[2].color,
 }) => {
   return (
-    <Link
-      href={"/collection"}
-      className={`nc-CardCategory3 block ${className}`}
-    >
+    <Link href={"/books"} className={`nc-CardCategory3 block ${className}`}>
       <div
         className={`relative w-full aspect-w-16 aspect-h-11 sm:aspect-h-9 h-0 rounded-2xl overflow-hidden group ${color}`}
       >

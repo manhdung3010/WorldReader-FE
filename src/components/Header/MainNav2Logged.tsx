@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createRef, FC, useState } from "react";
+import React, { createRef, FC, useState, useRef } from "react";
 import Logo from "@/shared/Logo/Logo";
 import MenuBar from "@/shared/MenuBar/MenuBar";
 import AvatarDropdown from "./AvatarDropdown";
@@ -12,8 +12,9 @@ import { useRouter } from "next/navigation";
 export interface MainNav2LoggedProps {}
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
-  const inputRef = createRef<HTMLInputElement>();
   const [showSearchForm, setShowSearchForm] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const renderMagnifyingGlassIcon = () => {
@@ -49,7 +50,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
         className="flex-1 py-2 text-slate-900 dark:text-slate-100"
         onSubmit={(e) => {
           e.preventDefault();
-          router.push("/search");
+          router.push(`/search?name=${encodeURIComponent(searchInput)}`);
+          setShowSearchForm(false);
           inputRef.current?.blur();
         }}
       >
@@ -61,6 +63,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
             placeholder="Type and press enter"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-base"
             autoFocus
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
           <button type="button" onClick={() => setShowSearchForm(false)}>
             <XMarkIcon className="w-5 h-5" />
