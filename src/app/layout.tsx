@@ -28,12 +28,14 @@ export default function RootLayout({
     <html lang="en" dir="" className={poppins.className}>
       <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
         <QueryClientProvider client={queryClient}>
-          <SiteHeader />
-          <LikeProvider>
-            <CartProvider>{children}</CartProvider>
-          </LikeProvider>
-          <CommonClient />
-          <Footer />
+          <CartProvider>
+            <LikeProvider>
+              <SiteHeader />
+              {children}
+              <CommonClient />
+              <Footer />
+            </LikeProvider>
+          </CartProvider>
         </QueryClientProvider>
       </body>
     </html>

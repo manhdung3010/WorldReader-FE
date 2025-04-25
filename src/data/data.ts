@@ -38,9 +38,11 @@ export interface Product {
   variantType?: "color" | "image";
   sizes?: string[];
   allOfSizes?: string[];
-  status?: "New in" | "limited edition" | "Sold Out" | "50% Discount";
+  status?: "IN_STOCK" | "OUT_OF_STOCK";
   rating?: string;
   numberOfReviews?: number;
+  quantity?: number;
+  url?: string;
 }
 
 const DEMO_VARIANTS: ProductVariant[] = [
@@ -122,9 +124,10 @@ export const PRODUCTS: Product[] = [
     variantType: "image",
     sizes: ["XS", "S", "M", "L", "XL"],
     allOfSizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
-    status: "New in",
+    status: "IN_STOCK",
     rating: "4.4",
     numberOfReviews: 98,
+    quantity: 10,
   },
   {
     id: 2,
@@ -137,9 +140,10 @@ export const PRODUCTS: Product[] = [
     link: "/product-detail/",
     variants: DEMO_VARIANT_COLORS,
     variantType: "color",
-    status: "50% Discount",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 5,
   },
   {
     id: 3,
@@ -156,6 +160,7 @@ export const PRODUCTS: Product[] = [
     allOfSizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 8,
   },
   {
     id: 4,
@@ -168,9 +173,10 @@ export const PRODUCTS: Product[] = [
     variants: DEMO_VARIANT_COLORS,
     variantType: "color",
     link: "/product-detail/",
-    status: "Sold Out",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 0,
   },
   {
     id: 5,
@@ -187,6 +193,7 @@ export const PRODUCTS: Product[] = [
     link: "/product-detail/",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 7,
   },
   {
     id: 6,
@@ -201,6 +208,7 @@ export const PRODUCTS: Product[] = [
     link: "/product-detail/",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 6,
   },
   {
     id: 7,
@@ -213,9 +221,10 @@ export const PRODUCTS: Product[] = [
     variants: DEMO_VARIANTS,
     variantType: "image",
     link: "/product-detail/",
-    status: "New in",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 3,
   },
   {
     id: 8,
@@ -230,9 +239,10 @@ export const PRODUCTS: Product[] = [
     sizes: ["XS", "S", "M", "L", "XL"],
     allOfSizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
     link: "/product-detail/",
-    status: "limited edition",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 2,
   },
 ];
 
@@ -250,9 +260,10 @@ export const SPORT_PRODUCTS: Product[] = [
     variantType: "color",
     sizes: ["XS", "S", "M", "L", "XL"],
     allOfSizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
-    status: "New in",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 10,
   },
   {
     id: 2,
@@ -265,9 +276,10 @@ export const SPORT_PRODUCTS: Product[] = [
     link: "/product-detail/",
     variants: DEMO_VARIANT_COLORS,
     variantType: "color",
-    status: "50% Discount",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 5,
   },
   {
     id: 3,
@@ -284,6 +296,7 @@ export const SPORT_PRODUCTS: Product[] = [
     allOfSizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 8,
   },
   {
     id: 4,
@@ -296,9 +309,10 @@ export const SPORT_PRODUCTS: Product[] = [
     variants: DEMO_VARIANT_COLORS,
     variantType: "color",
     link: "/product-detail/",
-    status: "Sold Out",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 0,
   },
   {
     id: 5,
@@ -315,6 +329,7 @@ export const SPORT_PRODUCTS: Product[] = [
     link: "/product-detail/",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 7,
   },
   {
     id: 6,
@@ -329,6 +344,7 @@ export const SPORT_PRODUCTS: Product[] = [
     link: "/product-detail/",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 6,
   },
   {
     id: 7,
@@ -341,9 +357,10 @@ export const SPORT_PRODUCTS: Product[] = [
     variants: DEMO_VARIANTS,
     variantType: "image",
     link: "/product-detail/",
-    status: "New in",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 3,
   },
   {
     id: 8,
@@ -358,8 +375,9 @@ export const SPORT_PRODUCTS: Product[] = [
     sizes: ["XS", "S", "M", "L", "XL"],
     allOfSizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
     link: "/product-detail/",
-    status: "limited edition",
+    status: "IN_STOCK",
     rating: "4.9",
     numberOfReviews: 98,
+    quantity: 2,
   },
 ];

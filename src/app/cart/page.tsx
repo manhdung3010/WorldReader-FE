@@ -1,17 +1,33 @@
+"use client";
+
 import { NoSymbolIcon, CheckIcon } from "@heroicons/react/24/outline";
 import NcInputNumber from "@/components/NcInputNumber";
 import Prices from "@/components/Prices";
-import { Product, PRODUCTS } from "@/data/data";
+import { Product } from "@/data/data";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
+import BookFalse from "@/images/book-false.jpg";
+import { useState } from "react";
 
 const CartPage = () => {
+  const { cartProducts, removeFromCart, updateQuantity } = useCart();
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: newQuantity,
+    }));
+    updateQuantity(productId.toString(), newQuantity);
+  };
+
   const renderStatusSoldout = () => {
     return (
       <div className="rounded-full flex items-center justify-center px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
         <NoSymbolIcon className="w-3.5 h-3.5" />
-        <span className="ml-1 leading-none">Sold Out</span>
+        <span className="ml-1 leading-none">Out of Stock</span>
       </div>
     );
   };
@@ -26,7 +42,9 @@ const CartPage = () => {
   };
 
   const renderProduct = (item: Product, index: number) => {
-    const { image, price, name } = item;
+    const { image, price, name, id, url, status } = item;
+    const isOutOfStock = status === "OUT_OF_STOCK";
+    const currentQuantity = quantities[id] || item.quantity || 1;
 
     return (
       <div
@@ -36,12 +54,15 @@ const CartPage = () => {
         <div className="relative h-36 w-24 sm:w-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <Image
             fill
-            src={image}
+            src={image || BookFalse}
             alt={name}
             sizes="300px"
             className="h-full w-full object-contain object-center"
           />
-          <Link href="/product-detail" className="absolute inset-0"></Link>
+          <Link
+            href={`/books/${url}` as any}
+            className="absolute inset-0"
+          ></Link>
         </div>
 
         <div className="ml-3 sm:ml-6 flex flex-1 flex-col">
@@ -49,96 +70,19 @@ const CartPage = () => {
             <div className="flex justify-between ">
               <div className="flex-[1.5] ">
                 <h3 className="text-base font-semibold">
-                  <Link href="/product-detail">{name}</Link>
+                  <Link href={`/books/${url}` as any}>{name}</Link>
                 </h3>
-                <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
-                  <div className="flex items-center space-x-1.5">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M7.01 18.0001L3 13.9901C1.66 12.6501 1.66 11.32 3 9.98004L9.68 3.30005L17.03 10.6501C17.4 11.0201 17.4 11.6201 17.03 11.9901L11.01 18.0101C9.69 19.3301 8.35 19.3301 7.01 18.0001Z"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M8.35 1.94995L9.69 3.28992"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2.07 11.92L17.19 11.26"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M3 22H16"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M18.85 15C18.85 15 17 17.01 17 18.24C17 19.26 17.83 20.09 18.85 20.09C19.87 20.09 20.7 19.26 20.7 18.24C20.7 17.01 18.85 15 18.85 15Z"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-
-                    <span>{`Black`}</span>
-                  </div>
-                  <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
-                  <div className="flex items-center space-x-1.5">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M21 9V3H15"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M3 15V21H9"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M21 3L13.5 10.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M10.5 13.5L3 21"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-
-                    <span>{`2XL`}</span>
-                  </div>
-                </div>
 
                 <div className="mt-3 flex justify-between w-full sm:hidden relative">
                   <select
                     name="qty"
                     id="qty"
-                    className="form-select text-sm rounded-md py-1 border-slate-200 dark:border-slate-700 relative z-10 dark:bg-slate-800 "
+                    className="form-select text-sm rounded-md py-1 border-slate-200 dark:border-slate-700 relative z-10 dark:bg-slate-800"
+                    value={currentQuantity}
+                    onChange={(e) =>
+                      handleQuantityChange(id, parseInt(e.target.value))
+                    }
+                    disabled={isOutOfStock}
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -156,7 +100,12 @@ const CartPage = () => {
               </div>
 
               <div className="hidden sm:block text-center relative">
-                <NcInputNumber className="relative z-10" />
+                <NcInputNumber
+                  className="relative z-10"
+                  defaultValue={currentQuantity}
+                  onChange={(value) => handleQuantityChange(id, value)}
+                  disabled={isOutOfStock}
+                />
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
@@ -166,21 +115,33 @@ const CartPage = () => {
           </div>
 
           <div className="flex mt-auto pt-4 items-end justify-between text-sm">
-            {Math.random() > 0.6
-              ? renderStatusSoldout()
-              : renderStatusInstock()}
+            {isOutOfStock ? renderStatusSoldout() : renderStatusInstock()}
 
-            <a
-              href="##"
-              className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
+            <button
+              onClick={() => removeFromCart(id.toString())}
+              className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm"
             >
               <span>Remove</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
     );
   };
+
+  const calculateSubtotal = () => {
+    return cartProducts.reduce((total, item) => {
+      const quantity = quantities[item.id] || item.quantity || 1;
+      return total + item.price * quantity;
+    }, 0);
+  };
+
+  const subtotal = calculateSubtotal();
+  // const shipping = 5.0;
+  // const tax = subtotal * 0.1;
+  const shipping = 0;
+  const tax = 0;
+  const total = subtotal + shipping + tax;
 
   return (
     <div className="nc-CartPage">
@@ -206,13 +167,7 @@ const CartPage = () => {
 
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-[60%] xl:w-[55%] divide-y divide-slate-200 dark:divide-slate-700 ">
-            {[
-              PRODUCTS[0],
-              PRODUCTS[1],
-              PRODUCTS[2],
-              PRODUCTS[3],
-              PRODUCTS[4],
-            ].map(renderProduct)}
+            {cartProducts.map(renderProduct)}
           </div>
           <div className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:mx-16 2xl:mx-20 flex-shrink-0"></div>
           <div className="flex-1">
@@ -222,24 +177,24 @@ const CartPage = () => {
                 <div className="flex justify-between pb-4">
                   <span>Subtotal</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    $249.00
+                    ${subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between py-4">
                   <span>Shpping estimate</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    $5.00
+                    ${shipping.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between py-4">
                   <span>Tax estimate</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    $24.90
+                    ${tax.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4">
                   <span>Order total</span>
-                  <span>$276.00</span>
+                  <span>${total.toFixed(2)}</span>
                 </div>
               </div>
               <ButtonPrimary href="/checkout" className="mt-8 w-full">
