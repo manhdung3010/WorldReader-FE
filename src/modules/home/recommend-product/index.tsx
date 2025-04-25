@@ -6,7 +6,7 @@ import Heading from "@/components/Heading/Heading";
 import Glide from "@glidejs/glide/dist/glide.esm";
 
 import { Product } from "@/data/data";
-import { useLike } from "@/context/LikeContext";
+import { useLike } from "@/contexts/LikeContext";
 import { useQuery } from "@tanstack/react-query";
 import { getRecommendFavorites } from "@/services/ai.service";
 import BookCard from "@/components/BookCard";

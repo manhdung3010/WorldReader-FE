@@ -7,7 +7,7 @@ import { Product } from "@/data/data";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Image from "next/image";
 import Link from "next/link";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 import BookFalse from "@/images/book-false.jpg";
 import { useState } from "react";
 

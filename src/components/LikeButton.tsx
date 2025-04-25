@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import { useLike } from "@/context/LikeContext"; // Import hook từ context
+import { useLike } from "@/contexts/LikeContext"; // Import hook từ context
 
 export interface LikeButtonProps {
   className?: string;

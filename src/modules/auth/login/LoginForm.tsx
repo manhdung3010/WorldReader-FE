@@ -12,9 +12,9 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/services/auth.service";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Spinner from "@/shared/Spinner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const loginSocials = [
   {
@@ -31,8 +31,8 @@ const validationSchema = Yup.object().shape({
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
+  const { login: authLogin } = useAuth();
 
   const {
     handleSubmit,
@@ -47,11 +47,12 @@ export default function LoginForm() {
     onSuccess: (response: any) => {
       if (!response.data) {
         toast.error(response.message || "Login failed");
-
         return;
       }
-      Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
-      Cookies.set("user", response.data.user, { expires: 7 });
+
+      console.log(response.data);
+
+      authLogin(response.data.accessToken, { ...response.data });
 
       toast.success("Logged in successfully!");
       router.push("/");
@@ -126,8 +127,8 @@ export default function LoginForm() {
                   {...field}
                   className="mt-1"
                   placeholder="example@example.com"
-                  error={!!errors.password}
-                  helperText={errors.password?.message}
+                  error={!!errors.identifier}
+                  helperText={errors.identifier?.message}
                 />
               )}
             />
@@ -146,12 +147,11 @@ export default function LoginForm() {
               defaultValue=""
               render={({ field }) => (
                 <Input
-                  autoFocus
                   {...field}
                   type="password"
                   className="mt-1"
-                  error={!!errors.identifier}
-                  helperText={errors.identifier?.message}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                 />
               )}
             />

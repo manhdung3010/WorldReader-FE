@@ -10,6 +10,7 @@ import DropdownCategories from "./DropdownCategories";
 import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface MainNav2Props {
   className?: string;
@@ -19,6 +20,7 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -76,6 +78,12 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
     );
   };
 
+  const handleAvatarClick = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="nc-MainNav2 relative z-10 bg-white dark:bg-slate-900 ">
       <div className="container">
@@ -113,7 +121,9 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
                 {renderMagnifyingGlassIcon()}
               </button>
             )}
-            <AvatarDropdown />
+            <div onClick={handleAvatarClick}>
+              <AvatarDropdown />
+            </div>
             <CartDropdown />
           </div>
         </div>

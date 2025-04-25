@@ -17,7 +17,7 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import BagIcon from "./BagIcon";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 import BookFalse from "@/images/book-false.jpg";
 
 export interface ProductCardProps {

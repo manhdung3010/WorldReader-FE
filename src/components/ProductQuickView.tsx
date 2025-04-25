@@ -23,7 +23,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Discount from "./Discount";
 import { formatPrice } from "@/utils/price";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 
 export interface ProductQuickViewProps {
   className?: string;

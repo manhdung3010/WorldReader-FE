@@ -33,7 +33,7 @@ import {
   getDetailProductByUrl,
   getReviewProduct,
 } from "@/services/product.service";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 import { Transition } from "@headlessui/react";
 import { formatPrice } from "@/utils/price";
 import Discount from "@/components/Discount";
