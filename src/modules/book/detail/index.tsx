@@ -37,6 +37,8 @@ import { Transition } from "@headlessui/react";
 import { formatPrice } from "@/utils/price";
 import Discount from "@/components/Discount";
 import SectionSliderProductCard from "./SectionSliderProductCard";
+import { useAuth } from "@/contexts/AuthContext";
+import ModalReviewForm from "./ModalReviewForm";
 
 const ProductDetailPage = () => {
   const queryClient = useQueryClient();
@@ -70,6 +72,8 @@ const ProductDetailPage = () => {
   const [qualitySelected, setQualitySelected] = useState(1);
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
     useState(false);
+  const [isOpenModalReviewForm, setIsOpenModalReviewForm] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const { addToCart } = useCart();
 
@@ -275,43 +279,84 @@ const ProductDetailPage = () => {
     const reviews = reviewProduct?.data?.data || []; // Default to empty array if no reviews
 
     return (
-      <div>
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 sm:p-8 shadow-sm">
         {/* HEADING */}
-        <h2 className="text-2xl font-semibold flex items-center">
-          <StarIcon className="w-7 h-7 mb-0.5" />
-          <span className="ml-1.5">
-            {`${productDetail?.data?.averageStarRating || 0} · ${
-              reviewProduct?.data?.total || 0
-            } Reviews`}
-          </span>
-        </h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl font-semibold flex items-center">
+            <StarIcon className="w-7 h-7 mb-0.5 text-yellow-500" />
+            <span className="ml-1.5">
+              {`${productDetail?.data?.averageStarRating || 0} · ${
+                reviewProduct?.data?.total || 0
+              } Reviews`}
+            </span>
+          </h2>
 
-        {/* comment */}
-        <div className="mt-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-11 gap-x-28">
-            {reviews.length > 0 ? (
-              reviews.map((review: any) => (
+          {isAuthenticated && (
+            <ButtonPrimary
+              onClick={() => setIsOpenModalReviewForm(true)}
+              className="flex items-center"
+            >
+              <StarIcon className="w-5 h-5 mr-2" />
+              Write a Review
+            </ButtonPrimary>
+          )}
+        </div>
+
+        {/* Reviews */}
+        <div className="mt-6">
+          {reviews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-8">
+              {reviews.map((review: any) => (
                 <ReviewItem
                   key={review.id}
                   data={{
                     comment: review.content,
+                    content: review.content,
                     date: new Date(review.createdAt).toLocaleDateString(),
                     name: review.name,
+                    author: review.author,
+                    authorImage: review.authorImage,
                     starPoint: review.star,
+                    star: review.star,
+                    image: review.image || [],
+                    display: review.display,
                   }}
                 />
-              ))
-            ) : (
-              <p>No reviews available</p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-10">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-neutral-800 mb-4">
+                <StarIcon className="w-8 h-8 text-gray-400 dark:text-neutral-500" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
+                No reviews yet
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">
+                Be the first to review this product
+              </p>
+              {isAuthenticated && (
+                <ButtonPrimary
+                  onClick={() => setIsOpenModalReviewForm(true)}
+                  className="flex items-center mx-auto"
+                >
+                  <StarIcon className="w-5 h-5 mr-2" />
+                  Write a Review
+                </ButtonPrimary>
+              )}
+            </div>
+          )}
 
-          <ButtonSecondary
-            onClick={() => setIsOpenModalViewAllReviews(true)}
-            className="mt-10 border border-slate-300 dark:border-slate-700 "
-          >
-            Show me all {reviewProduct?.data?.total || 0} reviews
-          </ButtonSecondary>
+          {reviews.length > 0 && (
+            <div className="mt-10 text-center">
+              <ButtonSecondary
+                onClick={() => setIsOpenModalViewAllReviews(true)}
+                className="border border-slate-300 dark:border-slate-700"
+              >
+                Show me all {reviewProduct?.data?.total || 0} reviews
+              </ButtonSecondary>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -409,6 +454,12 @@ const ProductDetailPage = () => {
         onCloseModalViewAllReviews={() => setIsOpenModalViewAllReviews(false)}
         formFilter={formFilter}
         setFormFilter={setFormFilter}
+      />
+
+      <ModalReviewForm
+        show={isOpenModalReviewForm}
+        onCloseModalReviewForm={() => setIsOpenModalReviewForm(false)}
+        productId={productDetail?.data?.id}
       />
     </div>
   );

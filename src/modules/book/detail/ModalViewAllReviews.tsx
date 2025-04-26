@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@/app/headlessui";
-import { StarIcon } from "@heroicons/react/24/solid";
+import { StarIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import ReviewItem from "@/components/ReviewItem";
 import SortOrderFilter from "@/components/SectionGridMoreExplore/SortOrderFilter";
 import React, { FC, Fragment } from "react";
@@ -80,7 +80,7 @@ const ModalViewAllReviews: FC<ModalViewAllReviewsProps> = ({
               <div className="inline-flex pb-2 flex-col w-full text-left align-middle transition-all transform overflow-hidden rounded-2xl bg-white dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:text-neutral-100 shadow-xl h-full">
                 <div className="relative flex-shrink-0 px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 text-center">
                   <h3
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                     id="headlessui-dialog-title-70"
                   >
                     View all reviews
@@ -91,58 +91,77 @@ const ModalViewAllReviews: FC<ModalViewAllReviewsProps> = ({
                 </div>
                 <div className="px-8 my-5 flex justify-between flex-wrap">
                   <h2 className="text-xl sm:text-2xl font-semibold flex items-center">
-                    <StarIcon className="w-7 h-7 mb-0.5" />
+                    <StarIcon className="w-7 h-7 mb-0.5 text-yellow-500" />
                     <span className="ml-1.5">{`${
                       averageStarRating || 0
                     } · ${totalReviews} Reviews`}</span>
                   </h2>
-                  <SortOrderFilter
-                    className="my-2"
-                    data={[
-                      { name: "Sort order" },
-                      { name: "Newest rating" },
-                      { name: "Highest rating" },
-                      { name: "Lowest rating" },
-                    ]}
-                  />
                 </div>
-                <div className="px-8 py-8 border-t border-slate-200 dark:border-slate-700 overflow-auto grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10">
+                <div className="px-8 py-6 border-t border-slate-200 dark:border-slate-700 overflow-auto">
                   {reviews.length > 0 ? (
-                    reviews.map((review: any) => (
-                      <ReviewItem
-                        key={review.id}
-                        data={{
-                          comment: review.content,
-                          date: new Date(review.createdAt).toLocaleDateString(),
-                          name: review.name,
-                          starPoint: review.star,
-                        }}
-                      />
-                    ))
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                      {reviews.map((review: any) => (
+                        <ReviewItem
+                          key={review.id}
+                          data={{
+                            comment: review.content,
+                            content: review.content,
+                            date: new Date(
+                              review.createdAt
+                            ).toLocaleDateString(),
+                            name: review.name,
+                            author: review.author,
+                            authorImage: review.authorImage,
+                            starPoint: review.star,
+                            star: review.star,
+                            image: review.image || [],
+                            display: review.display,
+                          }}
+                        />
+                      ))}
+                    </div>
                   ) : (
-                    <p>No reviews available</p>
+                    <div className="text-center py-10">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-neutral-800 mb-4">
+                        <StarIcon className="w-8 h-8 text-gray-400 dark:text-neutral-500" />
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
+                        No reviews available
+                      </h3>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        There are no reviews for this product yet.
+                      </p>
+                    </div>
                   )}
                 </div>
 
                 {/* Pagination */}
-                <div className="flex justify-between px-8 py-4">
-                  <ButtonSecondary
-                    onClick={handlePrevPage}
-                    className="border border-slate-300 dark:border-slate-700"
-                    disabled={formFilter.page === 1}
-                  >
-                    Previous
-                  </ButtonSecondary>
-                  <ButtonSecondary
-                    onClick={handleNextPage}
-                    className="border border-slate-300 dark:border-slate-700"
-                    disabled={
-                      formFilter.page * formFilter.pageSize >= totalReviews
-                    }
-                  >
-                    Next
-                  </ButtonSecondary>
-                </div>
+                {reviews.length > 0 && (
+                  <div className="flex justify-between px-8 py-4 border-t border-slate-200 dark:border-slate-700">
+                    <ButtonSecondary
+                      onClick={handlePrevPage}
+                      className="border border-slate-300 dark:border-slate-700"
+                      disabled={formFilter.page === 1}
+                    >
+                      Previous
+                    </ButtonSecondary>
+                    <div className="flex items-center">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        Page {formFilter.page} of{" "}
+                        {Math.ceil(totalReviews / formFilter.pageSize)}
+                      </span>
+                    </div>
+                    <ButtonSecondary
+                      onClick={handleNextPage}
+                      className="border border-slate-300 dark:border-slate-700"
+                      disabled={
+                        formFilter.page * formFilter.pageSize >= totalReviews
+                      }
+                    >
+                      Next
+                    </ButtonSecondary>
+                  </div>
+                )}
               </div>
             </div>
           </Transition.Child>
