@@ -157,9 +157,9 @@ const PartnersPage = () => {
         <div className="bg-primary-50 rounded-lg p-8">
           <h2 className="text-2xl font-semibold mb-4">Become a Partner</h2>
           <p className="mb-6">
-            We're always looking to expand our network of partners. Whether
+            {`We're always looking to expand our network of partners. Whether
             you're a publisher, author, or organization, we'd love to hear from
-            you.
+            you.`}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -179,7 +179,7 @@ const PartnersPage = () => {
               <div className="text-3xl mb-4">✍️</div>
               <h3 className="font-medium mb-2">Authors</h3>
               <p className="text-gray-600 mb-4">
-                Reach new audiences and maximize your book's visibility.
+                {`Reach new audiences and maximize your book's visibility.`}
               </p>
               <a
                 href="/partners/authors"

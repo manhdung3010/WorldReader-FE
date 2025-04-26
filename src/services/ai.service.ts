@@ -13,3 +13,8 @@ export function getProductRecommend(params: { product_id: any; k: number }) {
 export function getRecommendFavorites(payload: any) {
   return axiosClient.post(`ai/recommend/favorites`, payload);
 }
+
+export function askChatBot(payload: any) {
+  return axiosClient.post(`ai/chatbot/chat`, payload);
+}
+

@@ -8,6 +8,7 @@ import Footer from "@/shared/Footer/Footer";
 import SiteHeader from "@/app/SiteHeader";
 import CommonClient from "./CommonClient";
 import Providers from "./providers";
+import ChatBot from "@/components/ChatBot/ChatBot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
           <SiteHeader />
           {children}
           <CommonClient />
+          <ChatBot />
           <Footer />
         </Providers>
       </body>
