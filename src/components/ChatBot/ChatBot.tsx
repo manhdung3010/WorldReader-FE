@@ -15,7 +15,7 @@ const suggestedQuestions = [
   "What products do you recommend for beginners?",
   "How do I track my order status?",
   "What payment methods do you accept?",
-  "How long does shipping usually take?"
+  "How long does shipping usually take?",
 ];
 
 const ChatBot: React.FC = () => {
@@ -24,14 +24,28 @@ const ChatBot: React.FC = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Scroll when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Scroll when chat is opened
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        scrollToBottom();
+        if (chatWindowRef.current) {
+          chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+        }
+      }, 100); // Small delay to ensure DOM is updated
+    }
+  }, [isOpen]);
 
   const handleSendMessage = async (messageToSend = inputMessage) => {
     if (!messageToSend.trim()) return;
@@ -79,11 +93,15 @@ const ChatBot: React.FC = () => {
     handleSendMessage(question);
   };
 
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {/* Chat Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleChat}
         className="bg-[#E6ECF5] hover:bg-primary/90 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
         aria-label="Toggle chat"
       >
@@ -104,7 +122,7 @@ const ChatBot: React.FC = () => {
               </p>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={toggleChat}
               className="p-2 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-full transition-colors"
               aria-label="Close chat"
             >
@@ -126,14 +144,17 @@ const ChatBot: React.FC = () => {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div
+            ref={chatWindowRef}
+            className="flex-1 overflow-y-auto p-4 space-y-4"
+          >
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center p-4">
                 <ChatBotIcon className="w-16 h-16 mb-4 text-primary" />
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
                   {`Hello! I'm WorldReader's virtual assistant. How can I help you today?`}
                 </p>
-                
+
                 {/* Suggested Questions */}
                 <div className="w-full space-y-2 mt-2">
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
