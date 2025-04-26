@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { LikeProvider } from "@/contexts/LikeContext";
+import { ShippingProvider } from "@/contexts/ShippingContext";
+import { DiscountProvider } from "@/contexts/DiscountContext";
 import { Toaster } from "react-hot-toast";
 import { ReactNode } from "react";
 
@@ -18,9 +20,13 @@ export default function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CartProvider>
-          <LikeProvider>{children}</LikeProvider>
-        </CartProvider>
+        <DiscountProvider>
+          <CartProvider>
+            <ShippingProvider>
+              <LikeProvider>{children}</LikeProvider>
+            </ShippingProvider>
+          </CartProvider>
+        </DiscountProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
