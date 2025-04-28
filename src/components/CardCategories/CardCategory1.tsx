@@ -11,6 +11,8 @@ export interface CardCategory1Props {
   name?: string;
   desc?: string;
   category?: any;
+  width?: number;
+  height?: number;
 }
 
 const CardCategory1: FC<CardCategory1Props> = ({
@@ -20,6 +22,8 @@ const CardCategory1: FC<CardCategory1Props> = ({
   desc = "",
   featuredImage = "",
   category,
+  width,
+  height,
 }) => {
   return (
     <Link
@@ -34,6 +38,8 @@ const CardCategory1: FC<CardCategory1Props> = ({
         src={category?.image || _getImgRd()}
         sizes="(max-width: 640px) 100vw, 40vw"
         fill
+        width={width}
+        height={height}
       />
       <div>
         <h2

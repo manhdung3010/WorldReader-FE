@@ -34,6 +34,8 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
           src={imgs[0]}
           alt=""
           sizes="400px"
+          width={400}
+          height={250}
         />
         <div className="grid grid-cols-3 gap-2.5 mt-2.5">
           <NcImage
@@ -42,6 +44,8 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
             src={imgs[1]}
             alt=""
             sizes="150px"
+            width={150}
+            height={100}
           />
           <NcImage
             containerClassName="w-full h-24 sm:h-28"
@@ -49,6 +53,8 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
             src={imgs[2]}
             alt=""
             sizes="150px"
+            width={150}
+            height={100}
           />
           <NcImage
             containerClassName="w-full h-24 sm:h-28"
@@ -56,6 +62,8 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
             src={imgs[3]}
             alt=""
             sizes="150px"
+            width={150}
+            height={100}
           />
         </div>
       </div>

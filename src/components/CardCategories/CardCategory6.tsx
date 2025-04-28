@@ -37,6 +37,8 @@ const CardCategory6: FC<CardCategory6Props> = ({
               alt=""
               src={featuredImage}
               containerClassName={`w-20 h-20 rounded-full overflow-hidden z-0 ${color}`}
+              width={80}
+              height={80}
             />
           </div>
 
