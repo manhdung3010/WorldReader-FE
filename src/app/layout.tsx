@@ -37,19 +37,16 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://worldreader.com"),
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://worldreader.com",
-    siteName: "WorldReader",
     title: "WorldReader - Your Digital Reading Companion",
     description:
       "Access thousands of books, news articles, and educational content in one place.",
+    type: "website",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/images/hero-right1.png",
         width: 1200,
         height: 630,
-        alt: "WorldReader",
+        alt: "WorldReader - Digital Reading Platform",
       },
     ],
   },
@@ -58,7 +55,7 @@ export const metadata: Metadata = {
     title: "WorldReader - Your Digital Reading Companion",
     description:
       "Access thousands of books, news articles, and educational content in one place.",
-    images: ["/twitter-image.jpg"],
+    images: ["/images/hero-right1.png"],
     creator: "@worldreader",
   },
   robots: {
@@ -74,6 +71,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "your-google-site-verification",
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
