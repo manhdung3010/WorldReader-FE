@@ -2,9 +2,45 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | WorldReader",
+  title: "Privacy Policy | WorldReader - Your Digital Reading Companion",
   description:
-    "Privacy policy and data protection information for WorldReader users",
+    "Learn how WorldReader protects your personal information and data. Our comprehensive privacy policy explains how we collect, use, and safeguard your information when you use our digital reading platform.",
+  keywords: [
+    "WorldReader privacy",
+    "data protection",
+    "personal information",
+    "privacy policy",
+    "data security",
+    "user privacy",
+  ],
+  openGraph: {
+    title: "Privacy Policy | WorldReader - Digital Reading Platform",
+    description:
+      "Learn how WorldReader protects your personal information and data. Our comprehensive privacy policy explains how we collect, use, and safeguard your information.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WorldReader Privacy Policy - Digital Reading Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | WorldReader - Digital Reading Platform",
+    description:
+      "Learn how WorldReader protects your personal information and data.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const PrivacyPage = () => {
