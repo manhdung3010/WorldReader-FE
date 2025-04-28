@@ -20,10 +20,19 @@ import detail3JPG from "@/images/products/detail3.jpg";
 import NotifyAddTocart from "./NotifyAddTocart";
 import Image from "next/image";
 import Link from "next/link";
+import { Route } from "next";
 
 export interface ProductQuickView2Props {
   className?: string;
 }
+
+type ProductStatus =
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "NEW_IN"
+  | "DISCOUNT"
+  | "Sold Out"
+  | "limited edition";
 
 const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
   const { sizes, variants, status, allOfSizes } = PRODUCTS[0];
@@ -156,35 +165,36 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
     }
     const CLASSES =
       "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (status === "New in") {
+    const productStatus = status as ProductStatus;
+    if (productStatus === "NEW_IN") {
       return (
         <div className={CLASSES}>
           <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">New in</span>
         </div>
       );
     }
-    if (status === "50% Discount") {
+    if (productStatus === "DISCOUNT") {
       return (
         <div className={CLASSES}>
           <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "Sold Out") {
+    if (productStatus === "Sold Out") {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "limited edition") {
+    if (productStatus === "limited edition") {
       return (
         <div className={CLASSES}>
           <ClockIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
