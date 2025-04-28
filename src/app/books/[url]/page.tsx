@@ -9,25 +9,70 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product: any = await getDetailProductByUrl(params.url);
 
-  if (!product) return {};
+  if (!product) {
+    return {
+      title: "Book Not Found | WorldReader",
+      description: "The requested book could not be found on WorldReader.",
+    };
+  }
+
+  const title = product.seo?.title || `${product.name} | WorldReader`;
+  const description =
+    product.seo?.description ||
+    `Read ${product.name}${
+      product.author ? ` by ${product.author}` : ""
+    } on WorldReader. ${product.description || ""}`;
 
   return {
-    title: product.seo?.title || product.name,
-    description:
-      product.seo?.description || `Mua ${product.name} với giá ưu đãi.`,
+    title,
+    description,
+    keywords: [
+      product.name,
+      product.author,
+      "ebook",
+      "digital book",
+      "online reading",
+      "WorldReader",
+      ...(product.categories || []),
+    ],
     openGraph: {
-      title: product.seo?.title || product.name,
-      description:
-        product.seo?.description || `Mua ${product.name} với giá ưu đãi.`,
+      title,
+      description,
+      type: "book",
       images: product.image?.length
-        ? product.image.map((url: string) => ({ url }))
-        : [{ url: product.avatar }],
+        ? product.image.map((url: string) => ({
+            url,
+            width: 1200,
+            height: 630,
+            alt: product.name,
+          }))
+        : [
+            {
+              url: product.avatar || "/og-image.jpg",
+              width: 1200,
+              height: 630,
+              alt: product.name,
+            },
+          ],
+      authors: product.author ? [product.author] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: product.name,
-      description: product.seo?.description,
-      images: [product.avatar],
+      title,
+      description,
+      images: product.image?.[0] || product.avatar || "/twitter-image.jpg",
+    },
+    alternates: {
+      canonical: `/books/${params.url}`,
+    },
+    other: {
+      "og:price:amount": product.price?.toString(),
+      "og:price:currency": "USD",
+      "og:availability": product.inStock ? "instock" : "outofstock",
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }

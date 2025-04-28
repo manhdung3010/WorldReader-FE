@@ -19,6 +19,37 @@ import RecommendProduct from "@/modules/home/recommend-product";
 import ProductHomeList from "@/modules/home/product-list";
 import Link from "next/link";
 import SectionMagazine5 from "@/modules/blog/list/SectionMagazine5";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "WorldReader - Your Digital Reading Companion",
+  description:
+    "Discover thousands of books, news articles, and educational content in one place. WorldReader offers a vast digital library for readers of all interests.",
+  openGraph: {
+    title: "WorldReader - Your Digital Reading Companion",
+    description:
+      "Discover thousands of books, news articles, and educational content in one place. WorldReader offers a vast digital library for readers of all interests.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WorldReader Homepage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WorldReader - Your Digital Reading Companion",
+    description:
+      "Discover thousands of books, news articles, and educational content in one place.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 function PageHome() {
   return (
