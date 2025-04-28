@@ -6,6 +6,37 @@ import Textarea from "@/shared/Textarea/Textarea";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import SectionPromo1 from "@/components/SectionPromo1";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact WorldReader",
+  description:
+    "Get in touch with the WorldReader team. We're here to help with your questions, feedback, and support needs for our digital reading platform.",
+  openGraph: {
+    title: "Contact WorldReader",
+    description:
+      "Get in touch with the WorldReader team. We're here to help with your questions, feedback, and support needs for our digital reading platform.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Contact WorldReader",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact WorldReader",
+    description:
+      "Get in touch with the WorldReader team. We're here to help with your questions and support needs.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/contact",
+  },
+};
 
 const info = [
   {

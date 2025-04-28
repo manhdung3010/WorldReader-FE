@@ -2,8 +2,45 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | WorldReader",
-  description: "Terms and conditions for using WorldReader services",
+  title: "Terms of Service | WorldReader - Your Digital Reading Companion",
+  description:
+    "Read our comprehensive Terms of Service to understand the rules, guidelines, and agreements that govern your use of WorldReader's digital reading platform and services.",
+  keywords: [
+    "WorldReader terms",
+    "terms of service",
+    "user agreement",
+    "digital reading",
+    "platform rules",
+    "service guidelines",
+  ],
+  openGraph: {
+    title: "Terms of Service | WorldReader - Digital Reading Platform",
+    description:
+      "Read our comprehensive Terms of Service to understand the rules, guidelines, and agreements that govern your use of WorldReader's digital reading platform.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WorldReader Terms of Service - Digital Reading Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | WorldReader - Digital Reading Platform",
+    description:
+      "Read our comprehensive Terms of Service to understand the rules and guidelines for using WorldReader.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const TermsPage = () => {

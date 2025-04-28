@@ -63,6 +63,7 @@ const SidebarFilters = ({
     selectedCategories,
     isDiscount,
     display,
+    onFilterChange,
   ]);
 
   const handleCategoryChange = (checked: boolean, categoryId: number) => {

@@ -2,8 +2,33 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ | WorldReader",
-  description: "Frequently asked questions about WorldReader services",
+  title: "Frequently Asked Questions | WorldReader",
+  description:
+    "Find answers to common questions about WorldReader's digital library, subscription plans, account management, and technical support. Get help with your reading experience.",
+  openGraph: {
+    title: "Frequently Asked Questions | WorldReader",
+    description:
+      "Find answers to common questions about WorldReader's digital library, subscription plans, account management, and technical support.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WorldReader FAQ",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Frequently Asked Questions | WorldReader",
+    description:
+      "Find answers to common questions about WorldReader's digital library and services.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/faq",
+  },
 };
 
 const FAQPage = () => {
@@ -134,7 +159,7 @@ const FAQPage = () => {
 
       <div className="mt-12 text-center">
         <p className="text-gray-600 mb-4">
-         {` Can't find what you're looking for?`}
+          {` Can't find what you're looking for?`}
         </p>
         <button className="bg-primary-600 text-white py-2 px-6 rounded-md hover:bg-primary-700 transition-colors">
           Contact Support

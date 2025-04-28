@@ -2,8 +2,33 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Library | WorldReader",
-  description: "Browse our extensive collection of books",
+  title: "Your Digital Library | WorldReader",
+  description:
+    "Access your personal digital library with WorldReader. Browse, read, and manage your collection of books, articles, and educational content in one place.",
+  openGraph: {
+    title: "Your Digital Library | WorldReader",
+    description:
+      "Access your personal digital library with WorldReader. Browse, read, and manage your collection of books, articles, and educational content in one place.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WorldReader Digital Library",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Digital Library | WorldReader",
+    description:
+      "Access your personal digital library with WorldReader. Browse and read your collection in one place.",
+    images: ["/twitter-image.jpg"],
+  },
+  alternates: {
+    canonical: "/library",
+  },
 };
 
 const LibraryPage = () => {

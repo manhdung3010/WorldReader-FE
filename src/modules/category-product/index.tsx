@@ -113,7 +113,7 @@ export default function CategoryProductPage() {
 
       setIsAppending(false);
     }
-  }, [products]);
+  }, [products, formFilter.pageSize, formFilter.page, isAppending]);
 
   const handleShowMore = () => {
     if (formFilter.page < totalPages) {

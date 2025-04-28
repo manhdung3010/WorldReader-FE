@@ -27,6 +27,16 @@ import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "@/components/NotifyAddTocart";
 import Image from "next/image";
 import AccordionInfo from "@/components/AccordionInfo";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Route } from "next";
+
+type ProductStatus =
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "NEW_IN"
+  | "DISCOUNT"
+  | "Sold Out"
+  | "limited edition";
 
 const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
 
@@ -163,35 +173,37 @@ const ProductDetailPage = () => {
     }
     const CLASSES =
       "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (status === "New in") {
+    // Cast status to ProductStatus to fix type error
+    const productStatus = status as ProductStatus;
+    if (productStatus === "NEW_IN") {
       return (
         <div className={CLASSES}>
           <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">New in</span>
         </div>
       );
     }
-    if (status === "50% Discount") {
+    if (productStatus === "DISCOUNT") {
       return (
         <div className={CLASSES}>
           <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "Sold Out") {
+    if (productStatus === "Sold Out") {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "limited edition") {
+    if (productStatus === "limited edition") {
       return (
         <div className={CLASSES}>
           <ClockIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
@@ -321,7 +333,7 @@ const ProductDetailPage = () => {
             <ReviewItem
               data={{
                 comment: `I love the charcoal heavyweight hoodie. Still looks new after plenty of washes. 
-                  If you’re unsure which hoodie to pick.`,
+                  If you're unsure which hoodie to pick.`,
                 date: "December 22, 2021",
                 name: "Stiven Hokinhs",
                 starPoint: 5,
@@ -330,7 +342,7 @@ const ProductDetailPage = () => {
             <ReviewItem
               data={{
                 comment: `The quality and sizing mentioned were accurate and really happy with the purchase. Such a cozy and comfortable hoodie. 
-                Now that it’s colder, my husband wears his all the time. I wear hoodies all the time. `,
+                Now that it's colder, my husband wears his all the time. I wear hoodies all the time. `,
                 date: "August 15, 2022",
                 name: "Gropishta keo",
                 starPoint: 5,
