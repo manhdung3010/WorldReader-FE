@@ -389,8 +389,8 @@ const ProductDetailPage = () => {
             <div className="grid grid-cols-1 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {productDetail?.data?.image?.length > 0 && (
                 <div className=" grid grid-cols-4 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-5 xl:mt-5">
-                  {productDetail?.data.image.map((item, index) => {
-                    if (!item) return null; // Tránh render phần tử rỗng
+                  {productDetail?.data.image.map((item: any, index: number) => {
+                    if (!item) return null; 
                     return (
                       <div key={index} className="aspect-w-2 aspect-h-3">
                         <Image
