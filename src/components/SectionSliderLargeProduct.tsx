@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState, useMemo } from "react";
 import Heading from "@/components/Heading/Heading";
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm";
@@ -30,7 +30,10 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
   });
 
   // Extract products from the response
-  const products = productsResponse?.data || [];
+  const products = useMemo(
+    () => productsResponse?.data || [],
+    [productsResponse?.data]
+  );
 
   const sliderRef = useRef(null);
   const [isShow, setIsShow] = useState(false);

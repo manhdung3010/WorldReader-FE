@@ -6,6 +6,15 @@ import {
 import { Product } from "@/data/data";
 import React, { FC } from "react";
 import IconDiscount from "./IconDiscount";
+import { Route } from "next";
+
+type ProductStatus =
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "NEW_IN"
+  | "DISCOUNT"
+  | "Sold Out"
+  | "limited edition";
 
 interface Props {
   status: Product["status"];
@@ -21,35 +30,36 @@ const ProductStatus: FC<Props> = ({
       return null;
     }
     const CLASSES = `nc-shadow-lg rounded-full flex items-center justify-center ${className}`;
-    if (status === "New in") {
+    const productStatus = status as ProductStatus;
+    if (productStatus === "NEW_IN") {
       return (
         <div className={CLASSES}>
           <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">New in</span>
         </div>
       );
     }
-    if (status === "50% Discount") {
+    if (productStatus === "DISCOUNT") {
       return (
         <div className={CLASSES}>
           <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "Sold Out") {
+    if (productStatus === "Sold Out") {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }
-    if (status === "limited edition") {
+    if (productStatus === "limited edition") {
       return (
         <div className={CLASSES}>
           <ClockIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ml-1 leading-none">{productStatus}</span>
         </div>
       );
     }

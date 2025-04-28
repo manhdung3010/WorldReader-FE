@@ -6,6 +6,7 @@ import React, {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -92,13 +93,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Logout function
-  const logout = () => {
+  const logout = useCallback(() => {
     Cookies.remove("accessToken");
     Cookies.remove("user");
     setUser(null);
     setIsAuthenticated(false);
     router.push("/login");
-  };
+  }, [router]);
 
   // Initialize auth state from cookies
   useEffect(() => {
@@ -119,7 +120,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       }
     }
-  }, []);
+  }, [logout]);
 
   return (
     <AuthContext.Provider
