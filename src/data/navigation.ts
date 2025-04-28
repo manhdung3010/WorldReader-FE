@@ -244,29 +244,27 @@ const useNavigationDemo = (): NavItemType[] => {
       type: "megaMenu",
       children: megaMenuBooks,
     },
+    // {
+    //   id: ncNanoId(),
+    //   href: "/collection",
+    //   name: "Collection",
+    //   type: "megaMenu",
+    //   children: MEGAMENU_TEMPLATES,
+    // },
     {
       id: ncNanoId(),
-      href: "/collection",
-      name: "Collection",
-      type: "megaMenu",
-      children: MEGAMENU_TEMPLATES,
+      href: "/authors",
+      name: "Author",
     },
     {
       id: ncNanoId(),
-      href: "/collection",
-      name: "Beauty",
-    },
-    {
-      id: ncNanoId(),
-      href: "/collection-2",
-      name: "Sport",
+      href: "/about",
+      name: "About",
     },
     {
       id: ncNanoId(),
       href: "/search",
       name: "Explore",
-      type: "dropdown",
-      children: OTHER_PAGE_CHILD,
     },
   ];
 };
