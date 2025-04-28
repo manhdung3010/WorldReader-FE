@@ -160,7 +160,7 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
         <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
           <Link href={`/books/${data?.url}`} className="block">
             <NcImage
-              containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
+              containerClassName="flex aspect-w-11 aspect-h-15 w-full h-0"
               src={data?.avatar || BookFalse}
               className="object-cover w-full h-full drop-shadow-xl"
               fill

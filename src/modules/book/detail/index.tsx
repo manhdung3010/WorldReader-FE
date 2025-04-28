@@ -368,10 +368,10 @@ const ProductDetailPage = () => {
       <main className="container mt-5 lg:mt-11">
         <div className="lg:flex">
           {/* CONTENT */}
-          <div className="w-full lg:w-[55%] ">
+          <div className="w-full lg:w-[55%] lg:px-20">
             {/* HEADING */}
             <div className="relative">
-              <div className="aspect-w-16 aspect-h-16 relative">
+              <div className="aspect-w-14 aspect-h-16 relative">
                 <Image
                   src={productDetail?.data?.avatar}
                   fill
@@ -386,16 +386,13 @@ const ProductDetailPage = () => {
                 className="absolute top-3 end-3 z-10"
               />
             </div>
-            <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
+            <div className="grid grid-cols-1 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {productDetail?.data?.image?.length > 0 && (
-                <div className="hidden lg:grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-5 xl:mt-5">
-                  {[
-                    productDetail?.data.image[0],
-                    productDetail?.data.image[1],
-                  ].map((item, index) => {
+                <div className=" grid grid-cols-4 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-5 xl:mt-5">
+                  {productDetail?.data.image.map((item, index) => {
                     if (!item) return null; // Tránh render phần tử rỗng
                     return (
-                      <div key={index} className="aspect-w-3 aspect-h-4">
+                      <div key={index} className="aspect-w-2 aspect-h-3">
                         <Image
                           fill
                           src={item}

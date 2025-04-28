@@ -17,20 +17,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${category.name} Books | WorldReader - Your Digital Reading Companion`;
-  const description = `Explore our collection of ${category.name.toLowerCase()} books on WorldReader. Find the best digital books in ${category.name.toLowerCase()} category, from bestselling authors to new releases.`;
+  const title = `${category.data.name} Books | WorldReader - Your Digital Reading Companion`;
+  const description = `Explore our collection of ${category.data.name.toLowerCase()} books on WorldReader. Find the best digital books in ${category.name.toLowerCase()} category, from bestselling authors to new releases.`;
 
   return {
     title,
     description,
     keywords: [
-      category.name,
+      category.data.name,
       "digital books",
       "ebooks",
       "online reading",
       "WorldReader",
       "digital library",
-      ...(category.keywords || []),
+      ...(category.data.keywords || []),
     ],
     openGraph: {
       title,
@@ -38,10 +38,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: category.image || "/og-image.jpg",
+          url: category.data.image || "/og-image.jpg",
           width: 1200,
           height: 630,
-          alt: `${category.name} Books - WorldReader Digital Reading Platform`,
+          alt: `${category.data.name} Books - WorldReader Digital Reading Platform`,
         },
       ],
     },
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [category.image || "/twitter-image.jpg"],
+      images: [category.data.image || "/twitter-image.jpg"],
     },
     alternates: {
       canonical: `/category/${params.url}`,

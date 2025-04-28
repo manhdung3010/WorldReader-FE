@@ -17,20 +17,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${category.name} News | WorldReader - Your Digital Reading Companion`;
-  const description = `Stay updated with the latest ${category.name.toLowerCase()} news and articles on WorldReader. Discover insights, trends, and updates from the digital reading world.`;
+  const title = `${category.data.name} News | WorldReader - Your Digital Reading Companion`;
+  const description = `Stay updated with the latest ${category.data.name.toLowerCase()} news and articles on WorldReader. Discover insights, trends, and updates from the digital reading world.`;
 
   return {
     title,
     description,
     keywords: [
-      category.name,
+      category.data.name,
       "digital reading news",
       "ebook industry",
       "publishing news",
       "WorldReader",
       "reading trends",
-      ...(category.keywords || []),
+      ...(category.data.keywords || []),
     ],
     openGraph: {
       title,
@@ -38,10 +38,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: category.image || "/og-image.jpg",
+          url: category.data.image || "/og-image.jpg",
           width: 1200,
           height: 630,
-          alt: `${category.name} News - WorldReader Digital Reading Platform`,
+          alt: `${category.data.name} News - WorldReader Digital Reading Platform`,
         },
       ],
     },
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [category.image || "/twitter-image.jpg"],
+      images: [category.data.image || "/twitter-image.jpg"],
     },
     alternates: {
       canonical: `/news/category/${params.url}`,
