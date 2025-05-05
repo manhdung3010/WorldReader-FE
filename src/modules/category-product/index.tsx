@@ -45,7 +45,7 @@ interface ProductFilter {
 }
 
 export default function CategoryProductPage() {
-  const { url } = useParams();
+  const { url }: any = useParams();
   const [rows, setRows] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isAppending, setIsAppending] = useState(false);

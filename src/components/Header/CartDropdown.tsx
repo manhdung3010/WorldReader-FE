@@ -9,20 +9,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import BookFalse from "@/images/book-false.jpg";
+import NcImage from "@/shared/NcImage/NcImage";
 
 export default function CartDropdown() {
   const { cartProducts, removeFromCart } = useCart();
 
   const renderProduct = (item: any, index: number, close: () => void) => {
-    const { image, price, name, id, url } = item;
+    const { avatar, name, id, url, price, flashSale } = item;
+
+    const now = new Date().toISOString();
+    const flashStart = flashSale?.flashSaleStartTime;
+    const flashEnd = flashSale?.flashSaleEndTime;
+    const flashDiscount = flashSale?.flashSaleDiscount || 0;
+
+    const isOnSale =
+      flashStart &&
+      flashEnd &&
+      now >= flashStart &&
+      now <= flashEnd &&
+      flashDiscount > 0;
+
+    const effectivePrice = isOnSale
+      ? price - (price * flashDiscount) / 100
+      : price;
+
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image
+          <NcImage
+            containerClassName="flex aspect-w-11 aspect-h-15 w-full h-0"
+            src={avatar || BookFalse}
+            className="object-cover w-full h-full drop-shadow-xl"
             fill
-            src={image || BookFalse}
-            alt={name}
-            className="h-full w-full object-contain object-center"
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
+            alt="product"
           />
           <Link
             onClick={close}
@@ -33,15 +53,19 @@ export default function CartDropdown() {
 
         <div className="ml-4 flex flex-1 flex-col">
           <div>
-            <div className="flex justify-between ">
+            <div className="flex justify-between">
               <div>
-                <h3 className="text-base font-medium ">
+                <h3 className="text-base font-medium">
                   <Link onClick={close} href={`/books/${url}` as any}>
                     {name}
                   </Link>
                 </h3>
               </div>
-              <Prices price={price} className="mt-0.5" />
+              {isOnSale ? (
+                <Prices price={effectivePrice} className="mt-0.5" />
+              ) : (
+                <Prices price={price} className="mt-0.5" />
+              )}
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
@@ -66,7 +90,23 @@ export default function CartDropdown() {
 
   const calculateSubtotal = () => {
     return cartProducts.reduce((total, item) => {
-      return total + item.price * (item.quantity || 1);
+      // Kiểm tra xem sản phẩm có đang trong thời gian Flash Sale hay không
+      const now = new Date();
+      let effectivePrice = item.price;
+
+      if (
+        item.flashSale &&
+        new Date(item.flashSale.flashSaleStartTime) <= now &&
+        new Date(item.flashSale.flashSaleEndTime) >= now
+      ) {
+        // Nếu đang trong thời gian Flash Sale, sử dụng giá Flash Sale
+        effectivePrice = item.flashSale.flashSalePrice;
+      } else if (item.discountPrice) {
+        // Nếu không có Flash Sale nhưng có discount price cố định
+        effectivePrice = item.discountPrice;
+      }
+
+      return total + effectivePrice * (item.quantity || 1);
     }, 0);
   };
 

@@ -18,7 +18,7 @@ const ModalQuickView: FC<ModalQuickViewProps> = ({
   onCloseModalQuickView,
   data,
 }) => {
-  const pathname = usePathname();
+  const pathname: any = usePathname();
 
   return (
     <Transition appear show={show} as={Fragment}>

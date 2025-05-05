@@ -195,21 +195,12 @@ const FlashSale: FC<SectionSliderProductCardProps> = ({
   // Xử lý hiển thị BookCard với badge giảm giá
   const renderBookCard = (item: FlashSaleProduct, index: number) => {
     const discount = item.flashSale?.flashSaleDiscount || 0;
-    const flashSalePrice = item.flashSale?.flashSalePrice || item.price;
-    const originalPrice = item.price;
 
     return (
       <li key={index} className={`glide__slide ${itemClassName}`}>
         <div className="relative">
           {discount > 0 && <FlashSaleBadge discount={`${discount}%`} />}
-          <BookCard
-            data={{
-              ...item,
-              price: flashSalePrice,
-              oldPrice: originalPrice,
-            }}
-            key={index}
-          />
+          <BookCard data={item} key={index} />
         </div>
       </li>
     );

@@ -99,17 +99,35 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
         </Heading>
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {products.map((product: any) => (
-              <li className={`glide__slide`} key={product.id}>
-                <MyCollectionCard
-                  name={product.name}
-                  price={product.price}
-                  imgs={product.image || []}
-                  averageStarRating={product.averageStarRating}
-                  url={product.url}
-                />
-              </li>
-            ))}
+            {products.map((product: any) => {
+              const now = new Date().toISOString();
+              const flashStart = product.flashSale?.flashSaleStartTime;
+              const flashEnd = product.flashSale?.flashSaleEndTime;
+              const flashDiscount = product.flashSale?.flashSaleDiscount || 0;
+
+              const isOnSale =
+                flashStart &&
+                flashEnd &&
+                now >= flashStart &&
+                now <= flashEnd &&
+                flashDiscount > 0;
+
+              const effectivePrice = isOnSale
+                ? product.price - (product.price * flashDiscount) / 100
+                : product.price;
+
+              return (
+                <li className={`glide__slide`} key={product.id}>
+                  <MyCollectionCard
+                    name={product.name}
+                    price={effectivePrice}
+                    imgs={product.image || []}
+                    averageStarRating={product.averageStarRating}
+                    url={product.url}
+                  />
+                </li>
+              );
+            })}
 
             <li className={`glide__slide`}>
               <Link href={"/search"} className="block relative group">

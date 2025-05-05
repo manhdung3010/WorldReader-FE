@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Spinner from "@/shared/Spinner";
 import { format } from "date-fns";
 import BookFalse from "@/images/book-false.jpg";
-
+import NcImage from "@/shared/NcImage/NcImage";
 interface Product {
   id: number;
   name: string;
@@ -84,48 +84,6 @@ const AccountOrder = () => {
       fetchOrders();
     }
   }, [isAuthenticated]);
-
-  const renderProductItem = (item: OrderItem, index: number) => {
-    const { product, quantity } = item;
-    const productImage =
-      product.image && product.image.length > 0
-        ? product.image[0]
-        : product.avatar || BookFalse;
-
-    return (
-      <div key={index} className="flex py-4 sm:py-7 last:pb-0 first:pt-0">
-        <div className="relative h-24 w-16 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image
-            fill
-            sizes="100px"
-            src={productImage}
-            alt={product.name}
-            className="h-full w-full object-cover object-center"
-          />
-        </div>
-
-        <div className="ml-4 flex flex-1 flex-col">
-          <div>
-            <div className="flex justify-between ">
-              <div>
-                <h3 className="text-base font-medium line-clamp-1">
-                  {product.name}
-                </h3>
-              </div>
-              <Prices price={product.price} className="mt-0.5 ml-2" />
-            </div>
-          </div>
-          <div className="flex flex-1 items-end justify-between text-sm">
-            <p className="text-gray-500 dark:text-slate-400 flex items-center">
-              <span className="hidden sm:inline-block">Qty</span>
-              <span className="inline-block sm:hidden">x</span>
-              <span className="ml-2">{quantity}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {
@@ -214,6 +172,65 @@ const AccountOrder = () => {
           <div className="flex justify-between text-base font-semibold mt-4">
             <span>Total</span>
             <span>${parseFloat(order.totalPrice).toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderProductItem = (item: OrderItem, index: number) => {
+    const { product, quantity }: any = item;
+
+    console.log(product.avatar);
+    
+
+    // Kiểm tra giảm giá cho sản phẩm (flash sale)
+    const now = new Date().toISOString();
+    const flashStart = product.flashSale?.flashSaleStartTime;
+    const flashEnd = product.flashSale?.flashSaleEndTime;
+    const flashDiscount = product.flashSale?.flashSaleDiscount || 0;
+
+    const isOnSale =
+      flashStart &&
+      flashEnd &&
+      now >= flashStart &&
+      now <= flashEnd &&
+      flashDiscount > 0;
+
+    const effectivePrice = isOnSale
+      ? product.price - (product.price * flashDiscount) / 100
+      : product.price;
+
+    return (
+      <div key={index} className="flex py-4 sm:py-7 last:pb-0 first:pt-0">
+        <div className="relative h-24 w-16 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+          <NcImage
+            containerClassName="flex aspect-w-11 aspect-h-15 w-full h-0"
+            src={product.avatar || BookFalse}
+            className="object-cover w-full h-full drop-shadow-xl"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
+            alt="product"
+          />
+        </div>
+
+        <div className="ml-4 flex flex-1 flex-col">
+          <div>
+            <div className="flex justify-between ">
+              <div>
+                <h3 className="text-base font-medium line-clamp-1">
+                  {product.name}
+                </h3>
+              </div>
+              <Prices price={effectivePrice} className="mt-0.5 ml-2" />
+            </div>
+          </div>
+          <div className="flex flex-1 items-end justify-between text-sm">
+            <p className="text-gray-500 dark:text-slate-400 flex items-center">
+              <span className="hidden sm:inline-block">Qty</span>
+              <span className="inline-block sm:hidden">x</span>
+              <span className="ml-2">{quantity}</span>
+            </p>
           </div>
         </div>
       </div>

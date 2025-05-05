@@ -133,20 +133,58 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
   };
 
   const renderPrice = () => {
-    return (
-      <div>
-        <div className="flex gap-2 items-center">
-          <p className="text-green-500">
-            {formatPrice(data?.price * (1 - Number(data?.perDiscount) / 100))}
-          </p>
-          <Discount per={data?.perDiscount} />
-        </div>
-        {data?.perDiscount !== 0 && (
-          <div style={{ textDecoration: "line-through", color: "gray" }}>
-            {formatPrice(data?.price)}
+    const nowUTC = new Date(new Date().toISOString()); // ép current time thành UTC
+
+    const start = data?.flashSale?.flashSaleStartTime
+      ? new Date(data.flashSale.flashSaleStartTime)
+      : null;
+    const end = data?.flashSale?.flashSaleEndTime
+      ? new Date(data.flashSale.flashSaleEndTime)
+      : null;
+
+    const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+
+    if (isFlashSale) {
+      const flashPrice =
+        data.price * (1 - data.flashSale.flashSaleDiscount / 100);
+      return (
+        <div className="flex flex-col">
+          <div className="flex gap-2 items-center">
+            <p className="text-red-500 font-semibold">
+              {formatPrice(flashPrice)}
+            </p>
+            <span className="text-xs text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
+              Flash Sale
+            </span>
           </div>
-        )}
-      </div>
+          <p className="line-through text-gray-500">
+            {formatPrice(data.price)}
+          </p>
+        </div>
+      );
+    }
+
+    if (data.perDiscount > 0) {
+      const discountPrice = data.price * (1 - data.perDiscount / 100);
+      return (
+        <div className="flex flex-col">
+          <div className="flex gap-2 items-center">
+            <p className="text-green-600 font-semibold">
+              {formatPrice(discountPrice)}
+            </p>
+            <Discount per={data.perDiscount} />
+          </div>
+          <p className="line-through text-gray-500">
+            {formatPrice(data.price)}
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <p className="font-semibold text-neutral-800">
+        {formatPrice(data.price)}
+      </p>
     );
   };
 

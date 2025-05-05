@@ -22,6 +22,7 @@ import { createOrder } from "@/services/order.service";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Route } from "@/routers/types";
+import NcImage from "@/shared/NcImage/NcImage";
 
 const CheckoutPage = () => {
   const [tabActive, setTabActive] = useState<"ContactInfo" | "ShippingAddress">(
@@ -70,24 +71,38 @@ const CheckoutPage = () => {
   };
 
   const renderProduct = (item: any, index: number) => {
-    const { image, price, name, id, url, status } = item;
+    const { avatar, price, name, id, url, status, flashSale } = item;
     const isOutOfStock = status === "OUT_OF_STOCK";
     const currentQuantity = quantities[id] || item.quantity || 1;
+
+    const now = new Date().toISOString();
+    const flashStart = flashSale?.flashSaleStartTime;
+    const flashEnd = flashSale?.flashSaleEndTime;
+    const flashDiscount = flashSale?.flashSaleDiscount || 0;
+
+    const isOnSale =
+      flashStart &&
+      flashEnd &&
+      now >= flashStart &&
+      now <= flashEnd &&
+      flashDiscount > 0;
+
+    const effectivePrice = isOnSale
+      ? price - (price * flashDiscount) / 100
+      : price;
 
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
         <div className="relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image
-            src={image || BookFalse}
+          <NcImage
+            containerClassName="flex aspect-w-11 aspect-h-15 w-full h-0"
+            src={avatar || BookFalse}
+            className="object-cover w-full h-full drop-shadow-xl"
             fill
-            alt={name}
-            className="h-full w-full object-contain object-center"
-            sizes="150px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
+            alt="product"
           />
-          <Link
-            href={`/books/${url}` as any}
-            className="absolute inset-0"
-          ></Link>
+          <Link href={`/books/${url}` as any} className="absolute inset-0" />
         </div>
 
         <div className="ml-3 sm:ml-6 flex flex-1 flex-col">
@@ -115,10 +130,17 @@ const CheckoutPage = () => {
                       </option>
                     ))}
                   </select>
-                  <Prices
-                    contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                    price={price}
-                  />
+                  {isOnSale ? (
+                    <Prices
+                      contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
+                      price={effectivePrice}
+                    />
+                  ) : (
+                    <Prices
+                      contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
+                      price={price}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -132,7 +154,11 @@ const CheckoutPage = () => {
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
-                <Prices price={price} className="mt-0.5" />
+                {isOnSale ? (
+                  <Prices price={effectivePrice} className="mt-0.5" />
+                ) : (
+                  <Prices price={price} className="mt-0.5" />
+                )}
               </div>
             </div>
           </div>
@@ -153,9 +179,26 @@ const CheckoutPage = () => {
   };
 
   const calculateSubtotal = () => {
+    const now = new Date().toISOString();
+
     return cartProducts.reduce((total, item) => {
       const quantity = quantities[item.id] || item.quantity || 1;
-      return total + item.price * quantity;
+      const flashStart = item.flashSale?.flashSaleStartTime;
+      const flashEnd = item.flashSale?.flashSaleEndTime;
+      const flashDiscount = item.flashSale?.flashSaleDiscount || 0;
+
+      const isOnSale =
+        flashStart &&
+        flashEnd &&
+        now >= flashStart &&
+        now <= flashEnd &&
+        flashDiscount > 0;
+
+      const effectivePrice = isOnSale
+        ? item.price - (item.price * flashDiscount) / 100
+        : item.price;
+
+      return total + effectivePrice * quantity;
     }, 0);
   };
 

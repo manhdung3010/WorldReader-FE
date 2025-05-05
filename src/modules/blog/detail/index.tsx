@@ -19,7 +19,7 @@ import { useParams } from "next/navigation";
 import { formatDateCreateAt } from "@/utils/time";
 
 const BlogDetailPage = () => {
-  const { url } = useParams();
+  const { url }: any = useParams();
 
   // Lấy chi tiết sản phẩm
   const {

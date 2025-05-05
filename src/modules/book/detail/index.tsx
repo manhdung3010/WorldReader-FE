@@ -49,7 +49,7 @@ const ProductDetailPage = () => {
     pageSize: 10,
   });
 
-  const { url } = useParams();
+  const { url }: any = useParams();
 
   const { data: productDetail } = useQuery(["PRODUCT_DETAIL", url], () =>
     getDetailProductByUrl(url)
@@ -390,7 +390,7 @@ const ProductDetailPage = () => {
               {productDetail?.data?.image?.length > 0 && (
                 <div className=" grid grid-cols-4 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-5 xl:mt-5">
                   {productDetail?.data.image.map((item: any, index: number) => {
-                    if (!item) return null; 
+                    if (!item) return null;
                     return (
                       <div key={index} className="aspect-w-2 aspect-h-3">
                         <Image

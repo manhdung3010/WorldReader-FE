@@ -12,7 +12,7 @@ import { useState } from "react";
 import Card3 from "./Card3";
 
 export default function CategoryBlogDetailPage() {
-  const { url } = useParams();
+  const { url }: any = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
