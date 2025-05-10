@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export interface ShippingAddress {
   fullName: string;
@@ -27,8 +27,28 @@ export const ShippingProvider: React.FC<{ children: React.ReactNode }> = ({
   const [shippingAddress, setShippingAddress] =
     useState<ShippingAddress | null>(null);
 
+  // Load shipping address from localStorage when component mounts
+  useEffect(() => {
+    const storedAddress = localStorage.getItem("shippingAddress");
+    if (storedAddress) {
+      try {
+        setShippingAddress(JSON.parse(storedAddress));
+      } catch {
+        localStorage.removeItem("shippingAddress"); // Remove if data is corrupted
+      }
+    }
+  }, []);
+
+  // Save to localStorage whenever shipping address changes
+  useEffect(() => {
+    if (shippingAddress) {
+      localStorage.setItem("shippingAddress", JSON.stringify(shippingAddress));
+    }
+  }, [shippingAddress]);
+
   const clearShippingAddress = () => {
     setShippingAddress(null);
+    localStorage.removeItem("shippingAddress");
   };
 
   return (

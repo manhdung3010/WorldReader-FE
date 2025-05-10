@@ -1,13 +1,15 @@
 "use client";
 
 import Label from "@/components/Label/Label";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Input from "@/shared/Input/Input";
 import Radio from "@/shared/Radio/Radio";
 import Select from "@/shared/Select/Select";
 import type { ShippingAddress as ShippingAddressType } from "@/contexts/ShippingContext";
+import { useShipping } from "@/contexts/ShippingContext";
+import toast from "react-hot-toast";
 
 interface ShippingAddressProps {
   isActive: boolean;
@@ -38,6 +40,7 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
     };
     setShippingAddress(address);
     onCloseActive();
+    toast.success("Shipping address saved successfully!");
   };
 
   return (
@@ -143,7 +146,10 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
               </ButtonPrimary>
               <ButtonSecondary
                 className="mt-3 sm:mt-0 sm:ml-3"
-                onClick={() => onCloseActive()}
+                onClick={() => {
+                  onCloseActive();
+                  toast.error("Shipping address not saved");
+                }}
               >
                 Cancel
               </ButtonSecondary>

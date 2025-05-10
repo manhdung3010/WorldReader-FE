@@ -8,6 +8,7 @@ import Navigation from "@/shared/Navigation/Navigation";
 import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface MainNav2LoggedProps {}
 
@@ -16,6 +17,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   const [searchInput, setSearchInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -75,6 +77,12 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
     );
   };
 
+  const handleAvatarClick = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  };
+
   const renderContent = () => {
     return (
       <div className="h-20 flex justify-between">
@@ -99,7 +107,9 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
               {renderMagnifyingGlassIcon()}
             </button>
           )}
-          <AvatarDropdown />
+          <div onClick={handleAvatarClick}>
+            <AvatarDropdown />
+          </div>
           <CartDropdown />
         </div>
       </div>

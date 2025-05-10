@@ -68,12 +68,12 @@ const SectionGridMoreExplore: FC<SectionGridMoreExploreProps> = ({
     data: categoryResponse,
     isLoading,
     isError,
-  } = useQuery<CategoryResponse>(
+  } = useQuery<any>(
     ["CATEGORY_PRODUCT"],
     async () => {
       const response: AxiosResponse<CategoryResponse> =
         await getCategoryProduct({});
-      return response.data;
+      return response;
     },
     {
       refetchOnWindowFocus: false,
@@ -204,7 +204,7 @@ const SectionGridMoreExplore: FC<SectionGridMoreExploreProps> = ({
   return (
     <div className={`nc-SectionGridMoreExplore relative ${className}`}>
       {renderHeading()}
-      {filteredData.map((parentCategory) =>
+      {filteredData.map((parentCategory: any) =>
         renderCategorySection(parentCategory)
       )}
     </div>
