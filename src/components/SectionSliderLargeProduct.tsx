@@ -121,7 +121,11 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
                   <MyCollectionCard
                     name={product.name}
                     price={effectivePrice}
-                    imgs={product.image || []}
+                    imgs={
+                      product.avatar
+                        ? [product.avatar, ...(product.image || [])]
+                        : []
+                    }
                     averageStarRating={product.averageStarRating}
                     url={product.url}
                   />
