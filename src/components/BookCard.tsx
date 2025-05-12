@@ -89,13 +89,13 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
   const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
-        <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+        <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <Image
             width={80}
             height={96}
             src={data?.avatar || BookFalse}
             alt={data?.name || "Product"}
-            className="absolute object-cover object-center"
+            className="absolute object-cover object-center  overflow-hidden "
           />
         </div>
 

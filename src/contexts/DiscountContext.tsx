@@ -50,8 +50,11 @@ export const DiscountProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(true);
       setError(null);
 
+      // Remove any spaces from the code
+      const trimmedCode = code.replace(/\s+/g, "");
+
       // First check if the discount code is valid
-      const checkResponse = await checkDiscount(code);
+      const checkResponse = await checkDiscount(trimmedCode);
       console.log("Check discount response:", checkResponse);
 
       // Check if the response has the expected structure
@@ -79,18 +82,18 @@ export const DiscountProvider: React.FC<{ children: ReactNode }> = ({
             setPriceReduce(discountAmount);
           }
         } else {
-          // Fixed amount discount
           setPriceReduce(discountData.price);
         }
 
-        // Try to get price reduction from API if available
         try {
-          const reduceResponse = await getPriceReduce([{ code, products }]);
-          console.log("Price reduce response:", reduceResponse);
+          const reduceResponse = await getPriceReduce([
+            { code: trimmedCode, products },
+          ]);
 
           if (reduceResponse.data && reduceResponse.data.priceReduce) {
             setPriceReduce(reduceResponse.data.priceReduce);
           }
+          console.log("Price reduce response:", reduceResponse);
         } catch (reduceErr) {
           console.error("Error getting price reduction:", reduceErr);
           // Continue with the calculated price reduction

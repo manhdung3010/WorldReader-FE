@@ -79,13 +79,13 @@ const ProductCard: FC<ProductCardProps> = ({
   const renderProductCartOnNotify = ({ size }: { size?: string }) => {
     return (
       <div className="flex ">
-        <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+        <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <Image
             width={80}
             height={96}
             src={image}
             alt={name}
-            className="absolute object-cover object-center"
+            className="absolute object-cover object-center overflow-hidden "
           />
         </div>
 

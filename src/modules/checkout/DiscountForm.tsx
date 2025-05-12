@@ -25,7 +25,6 @@ const DiscountForm: React.FC<DiscountFormProps> = ({ products }) => {
     }
   };
 
-  console.log(priceReduce);
 
   return (
     <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-4 xl:p-6">

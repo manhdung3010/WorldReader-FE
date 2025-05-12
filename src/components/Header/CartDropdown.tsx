@@ -35,11 +35,11 @@ export default function CartDropdown() {
 
     return (
       <div key={index} className="flex py-5 last:pb-0">
-        <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+        <div className="relative h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <NcImage
             containerClassName="flex aspect-w-11 aspect-h-15 w-full h-0"
             src={avatar || BookFalse}
-            className="object-cover w-full h-full drop-shadow-xl"
+            className="object-cover w-full h-full drop-shadow-xl overflow-hidden"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
             alt="product"

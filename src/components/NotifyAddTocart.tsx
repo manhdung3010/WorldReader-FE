@@ -21,7 +21,7 @@ const NotifyAddTocart: FC<Props> = ({ show, data, qualitySelected }) => {
             alt={data?.name}
             fill
             sizes="100px"
-            className="h-full w-full object-contain object-center"
+            className="h-full w-full object-contain object-center  overflow-hidden "
           />
         </div>
 

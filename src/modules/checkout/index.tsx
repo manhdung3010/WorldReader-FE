@@ -254,7 +254,6 @@ const CheckoutPage = () => {
         },
       };
 
-      console.log("Order payload:", orderPayload);
 
       const response = await createOrder(orderPayload);
 

@@ -15,7 +15,7 @@ export default function AvatarDropdown() {
   if (!isAuthenticated) {
     return (
       <div className="AvatarDropdown cursor-pointer">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center">
+        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center">
           <svg
             className=" w-6 h-6"
             viewBox="0 0 24 24"
@@ -48,12 +48,12 @@ export default function AvatarDropdown() {
         {({ open, close }) => (
           <>
             <Popover.Button
-              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center`}
+              className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center`}
             >
               {user?.avatar ? (
                 <Avatar
                   imgUrl={user.avatar}
-                  sizeClass="w-10 h-10 sm:w-12 sm:h-12"
+                  sizeClass="w-6 h-6 sm:w-8 sm:h-8"
                 />
               ) : (
                 <svg
@@ -144,7 +144,7 @@ export default function AvatarDropdown() {
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={"/checkout"}
+                      href={"/account-order"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
