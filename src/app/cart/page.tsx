@@ -3,7 +3,6 @@
 import { NoSymbolIcon, CheckIcon } from "@heroicons/react/24/outline";
 import NcInputNumber from "@/components/NcInputNumber";
 import Prices from "@/components/Prices";
-import { Product } from "@/data/data";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,8 +40,8 @@ const CartPage = () => {
     );
   };
 
-  const renderProduct = (item: Product, index: number) => {
-    const { image, price, name, id, url, status } = item;
+  const renderProduct = (item: any, index: number) => {
+    const { avatar, price, name, id, url, status } = item;
     const isOutOfStock = status === "OUT_OF_STOCK";
     const currentQuantity = quantities[id] || item.quantity || 1;
 
@@ -54,10 +53,10 @@ const CartPage = () => {
         <div className="relative h-36 w-24 sm:w-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <Image
             fill
-            src={image || BookFalse}
+            src={avatar || BookFalse}
             alt={name}
             sizes="300px"
-            className="h-full w-full object-contain object-center"
+            className="object-cover w-full h-full drop-shadow-xl overflow-hidden"
           />
           <Link
             href={`/books/${url}` as any}
