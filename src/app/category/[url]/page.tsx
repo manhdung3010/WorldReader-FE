@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const title = `${category.data.name} Books | WorldReader - Your Digital Reading Companion`;
-  const description = `Explore our collection of ${category.data.name.toLowerCase()} books on WorldReader. Find the best digital books in ${category.name.toLowerCase()} category, from bestselling authors to new releases.`;
+  const description = `Explore our collection of ${category.data.name} books on WorldReader. Find the best digital books in ${category.name} category, from bestselling authors to new releases.`;
 
   return {
     title,
