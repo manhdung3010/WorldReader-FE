@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import LikeButton from "@/components/LikeButton";
 import { StarIcon } from "@heroicons/react/24/solid";
@@ -39,6 +39,7 @@ import Discount from "@/components/Discount";
 import SectionSliderProductCard from "./SectionSliderProductCard";
 import { useAuth } from "@/contexts/AuthContext";
 import ModalReviewForm from "./ModalReviewForm";
+import { useViewHistory } from "@/contexts/ViewHistoryContext";
 
 const ProductDetailPage = () => {
   const queryClient = useQueryClient();
@@ -76,6 +77,33 @@ const ProductDetailPage = () => {
   const { isAuthenticated } = useAuth();
 
   const { addToCart } = useCart();
+
+  const { addToViewHistory } = useViewHistory();
+  const [viewTimer, setViewTimer] = useState<NodeJS.Timeout | null>(null);
+
+  // Add view history tracking
+  useEffect(() => {
+    if (productDetail?.data) {
+      // Clear any existing timer
+      if (viewTimer) {
+        clearTimeout(viewTimer);
+      }
+
+      // Set new timer for 10 seconds
+      const timer = setTimeout(() => {
+        addToViewHistory(productDetail.data);
+      }, 10000);
+
+      setViewTimer(timer);
+
+      // Cleanup timer on unmount
+      return () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      };
+    }
+  }, [productDetail?.data]);
 
   const notifyAddTocart = () => {
     addToCart(productDetail?.data);

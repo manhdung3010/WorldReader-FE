@@ -10,6 +10,7 @@ import { useLike } from "@/contexts/LikeContext";
 import { useQuery } from "@tanstack/react-query";
 import { getRecommendFavorites } from "@/services/ai.service";
 import BookCard from "@/components/BookCard";
+import { useViewHistory } from "@/contexts/ViewHistoryContext";
 
 export interface SectionSliderProductCardProps {
   className?: string;
@@ -32,20 +33,23 @@ const RecommendProduct: FC<SectionSliderProductCardProps> = ({
 }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const { likedProducts } = useLike();
+  const { viewedProducts } = useViewHistory();
   const [isSliderMounted, setIsSliderMounted] = useState(false);
 
-  // Extract IDs from liked products
+  // Combine IDs from liked products and viewed products
   const favoriteIds = likedProducts.map((product) => product.id);
+  const viewedIds = viewedProducts.map((product) => product.id);
+  const combinedIds = Array.from(new Set([...favoriteIds, ...viewedIds])); // Remove duplicates
 
   const {
     data: productRecommendations,
     isLoading,
     isError,
   } = useQuery(
-    ["PRODUCTS_RECOMMEND_FAVORITE", favoriteIds],
+    ["PRODUCTS_RECOMMEND_FAVORITE", combinedIds],
     () =>
       getRecommendFavorites({
-        favorite_ids: favoriteIds.length > 0 ? favoriteIds : [], // Fallback to ID 1 if no favorites
+        favorite_ids: combinedIds.length > 0 ? combinedIds : [],
         k: 10,
       }),
     {

@@ -17,4 +17,3 @@ export function getRecommendFavorites(payload: any) {
 export function askChatBot(payload: any) {
   return axiosClient.post(`ai/chatbot/chat`, payload);
 }
-

@@ -9,6 +9,7 @@ import SiteHeader from "@/app/SiteHeader";
 import CommonClient from "./CommonClient";
 import Providers from "./providers";
 import ChatBot from "@/components/ChatBot/ChatBot";
+import { ViewHistoryProvider } from "@/contexts/ViewHistoryContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -87,13 +88,15 @@ export default function RootLayout({
   return (
     <html lang="en" dir="" className={inter.className}>
       <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
-        <Providers>
-          <SiteHeader />
-          {children}
-          <CommonClient />
-          <ChatBot />
-          <Footer />
-        </Providers>
+        <ViewHistoryProvider>
+          <Providers>
+            <SiteHeader />
+            {children}
+            <CommonClient />
+            <ChatBot />
+            <Footer />
+          </Providers>
+        </ViewHistoryProvider>
       </body>
     </html>
   );
