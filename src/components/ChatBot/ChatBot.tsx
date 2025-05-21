@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { askChatBot } from "@/services/ai.service";
 import { ChatBotIcon } from "@/shared/Icons/ChatBotIcon";
 import { SendMessageIcon } from "@/shared/Icons/ChatBotIcon copy";
@@ -186,7 +187,11 @@ const ChatBot: React.FC = () => {
                       : "bg-gray-100 dark:bg-neutral-700"
                   }`}
                 >
-                  {message.content}
+                  {message.role === "assistant" ? (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             ))}
