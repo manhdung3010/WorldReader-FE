@@ -75,21 +75,18 @@ const CheckoutPage = () => {
     const isOutOfStock = status === "OUT_OF_STOCK";
     const currentQuantity = quantities[id] || item.quantity || 1;
 
-    const now = new Date().toISOString();
-    const flashStart = flashSale?.flashSaleStartTime;
-    const flashEnd = flashSale?.flashSaleEndTime;
-    const flashDiscount = flashSale?.flashSaleDiscount || 0;
+    const nowUTC = new Date(new Date().toISOString());
+    const start = flashSale?.flashSaleStartTime
+      ? new Date(flashSale.flashSaleStartTime)
+      : null;
+    const end = flashSale?.flashSaleEndTime
+      ? new Date(flashSale.flashSaleEndTime)
+      : null;
 
-    const isOnSale =
-      flashStart &&
-      flashEnd &&
-      now >= flashStart &&
-      now <= flashEnd &&
-      flashDiscount > 0;
-
-    const effectivePrice = isOnSale
-      ? price - (price * flashDiscount) / 100
-      : price;
+    const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+    const effectivePrice = isFlashSale
+      ? price * (1 - flashSale.flashSaleDiscount / 100)
+      : price * (1 - Number(item.perDiscount) / 100);
 
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
@@ -130,17 +127,10 @@ const CheckoutPage = () => {
                       </option>
                     ))}
                   </select>
-                  {isOnSale ? (
-                    <Prices
-                      contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                      price={effectivePrice}
-                    />
-                  ) : (
-                    <Prices
-                      contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                      price={price}
-                    />
-                  )}
+                  <Prices
+                    contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
+                    price={effectivePrice}
+                  />
                 </div>
               </div>
 
@@ -154,11 +144,7 @@ const CheckoutPage = () => {
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
-                {isOnSale ? (
-                  <Prices price={effectivePrice} className="mt-0.5" />
-                ) : (
-                  <Prices price={price} className="mt-0.5" />
-                )}
+                <Prices price={effectivePrice} className="mt-0.5" />
               </div>
             </div>
           </div>
@@ -179,24 +165,21 @@ const CheckoutPage = () => {
   };
 
   const calculateSubtotal = () => {
-    const now = new Date().toISOString();
+    const nowUTC = new Date(new Date().toISOString());
 
     return cartProducts.reduce((total, item) => {
       const quantity = quantities[item.id] || item.quantity || 1;
-      const flashStart = item.flashSale?.flashSaleStartTime;
-      const flashEnd = item.flashSale?.flashSaleEndTime;
-      const flashDiscount = item.flashSale?.flashSaleDiscount || 0;
+      const start = item.flashSale?.flashSaleStartTime
+        ? new Date(item.flashSale.flashSaleStartTime)
+        : null;
+      const end = item.flashSale?.flashSaleEndTime
+        ? new Date(item.flashSale.flashSaleEndTime)
+        : null;
 
-      const isOnSale =
-        flashStart &&
-        flashEnd &&
-        now >= flashStart &&
-        now <= flashEnd &&
-        flashDiscount > 0;
-
-      const effectivePrice = isOnSale
-        ? item.price - (item.price * flashDiscount) / 100
-        : item.price;
+      const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+      const effectivePrice = isFlashSale
+        ? item.price * (1 - item.flashSale.flashSaleDiscount / 100)
+        : item.price * (1 - Number(item.perDiscount) / 100);
 
       return total + effectivePrice * quantity;
     }, 0);
@@ -253,7 +236,6 @@ const CheckoutPage = () => {
           addressType: "HOME", // Default value
         },
       };
-
 
       const response = await createOrder(orderPayload);
 

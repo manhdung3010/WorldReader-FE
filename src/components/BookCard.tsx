@@ -87,6 +87,19 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
   };
 
   const renderProductCartOnNotify = () => {
+    const nowUTC = new Date(new Date().toISOString());
+    const start = data?.flashSale?.flashSaleStartTime
+      ? new Date(data.flashSale.flashSaleStartTime)
+      : null;
+    const end = data?.flashSale?.flashSaleEndTime
+      ? new Date(data.flashSale.flashSaleEndTime)
+      : null;
+
+    const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+    const effectivePrice = isFlashSale
+      ? data?.price * (1 - data?.flashSale?.flashSaleDiscount / 100)
+      : data?.price * (1 - Number(data?.perDiscount) / 100);
+
     return (
       <div className="flex ">
         <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -105,10 +118,7 @@ const BookCard: FC<ProductCardProps> = ({ className = "", data }) => {
               <div>
                 <h3 className="text-base font-medium ">{data?.name}</h3>
               </div>
-              <Prices
-                price={data?.price * (1 - Number(data?.perDiscount) / 100)}
-                className="mt-0.5"
-              />
+              <Prices price={effectivePrice} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">

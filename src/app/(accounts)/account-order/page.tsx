@@ -25,6 +25,12 @@ interface Product {
   price: number;
   avatar: string;
   status: string;
+  flashSale?: {
+    flashSaleStartTime: string;
+    flashSaleEndTime: string;
+    flashSaleDiscount: number;
+  };
+  perDiscount: number;
 }
 
 interface OrderItem {
@@ -356,10 +362,7 @@ const AccountOrder = () => {
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>
             <span className="font-medium">
-              $
-              {(
-                parseFloat(order.totalPrice) + parseFloat(order.discountPrice)
-              ).toFixed(2)}
+              ${parseFloat(order.totalPrice).toFixed(2)}
             </span>
           </div>
           {parseFloat(order.discountPrice) > 0 && (
@@ -372,7 +375,12 @@ const AccountOrder = () => {
           )}
           <div className="flex justify-between text-base font-semibold mt-4">
             <span>Total</span>
-            <span>${parseFloat(order.totalPrice).toFixed(2)}</span>
+            <span>
+              ${" "}
+              {(
+                parseFloat(order.totalPrice) - parseFloat(order.discountPrice)
+              ).toFixed(2)}
+            </span>
           </div>
         </div>
       </div>

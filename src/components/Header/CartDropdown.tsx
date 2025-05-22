@@ -15,23 +15,21 @@ export default function CartDropdown() {
   const { cartProducts, removeFromCart } = useCart();
 
   const renderProduct = (item: any, index: number, close: () => void) => {
-    const { avatar, name, id, url, price, flashSale } = item;
+    const { avatar, name, id, url, price, flashSale, perDiscount } = item;
 
-    const now = new Date().toISOString();
-    const flashStart = flashSale?.flashSaleStartTime;
-    const flashEnd = flashSale?.flashSaleEndTime;
-    const flashDiscount = flashSale?.flashSaleDiscount || 0;
+    const nowUTC = new Date(new Date().toISOString());
+    const start = flashSale?.flashSaleStartTime
+      ? new Date(flashSale.flashSaleStartTime)
+      : null;
+    const end = flashSale?.flashSaleEndTime
+      ? new Date(flashSale.flashSaleEndTime)
+      : null;
 
-    const isOnSale =
-      flashStart &&
-      flashEnd &&
-      now >= flashStart &&
-      now <= flashEnd &&
-      flashDiscount > 0;
-
-    const effectivePrice = isOnSale
-      ? price - (price * flashDiscount) / 100
-      : price;
+    const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+    const effectivePrice =
+      isFlashSale && flashSale
+        ? price * (1 - flashSale.flashSaleDiscount / 100)
+        : price * (1 - Number(perDiscount) / 100);
 
     return (
       <div key={index} className="flex py-5 last:pb-0">
@@ -61,11 +59,7 @@ export default function CartDropdown() {
                   </Link>
                 </h3>
               </div>
-              {isOnSale ? (
-                <Prices price={effectivePrice} className="mt-0.5" />
-              ) : (
-                <Prices price={price} className="mt-0.5" />
-              )}
+              <Prices price={effectivePrice} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
@@ -90,21 +84,19 @@ export default function CartDropdown() {
 
   const calculateSubtotal = () => {
     return cartProducts.reduce((total, item) => {
-      // Kiểm tra xem sản phẩm có đang trong thời gian Flash Sale hay không
-      const now = new Date();
-      let effectivePrice = item.price;
+      const nowUTC = new Date(new Date().toISOString());
+      const start = item.flashSale?.flashSaleStartTime
+        ? new Date(item.flashSale.flashSaleStartTime)
+        : null;
+      const end = item.flashSale?.flashSaleEndTime
+        ? new Date(item.flashSale.flashSaleEndTime)
+        : null;
 
-      if (
-        item.flashSale &&
-        new Date(item.flashSale.flashSaleStartTime) <= now &&
-        new Date(item.flashSale.flashSaleEndTime) >= now
-      ) {
-        // Nếu đang trong thời gian Flash Sale, sử dụng giá Flash Sale
-        effectivePrice = item.flashSale.flashSalePrice;
-      } else if (item.discountPrice) {
-        // Nếu không có Flash Sale nhưng có discount price cố định
-        effectivePrice = item.discountPrice;
-      }
+      const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+      const effectivePrice =
+        isFlashSale && item.flashSale
+          ? item.price * (1 - item.flashSale.flashSaleDiscount / 100)
+          : item.price * (1 - Number(item.perDiscount) / 100);
 
       return total + effectivePrice * (item.quantity || 1);
     }, 0);

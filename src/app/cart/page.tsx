@@ -41,9 +41,22 @@ const CartPage = () => {
   };
 
   const renderProduct = (item: any, index: number) => {
-    const { avatar, price, name, id, url, status } = item;
+    const { avatar, price, name, id, url, status, flashSale } = item;
     const isOutOfStock = status === "OUT_OF_STOCK";
     const currentQuantity = quantities[id] || item.quantity || 1;
+
+    const nowUTC = new Date(new Date().toISOString());
+    const start = flashSale?.flashSaleStartTime
+      ? new Date(flashSale.flashSaleStartTime)
+      : null;
+    const end = flashSale?.flashSaleEndTime
+      ? new Date(flashSale.flashSaleEndTime)
+      : null;
+
+    const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+    const effectivePrice = isFlashSale
+      ? price * (1 - flashSale.flashSaleDiscount / 100)
+      : price * (1 - Number(item.perDiscount) / 100);
 
     return (
       <div
@@ -93,7 +106,7 @@ const CartPage = () => {
                   </select>
                   <Prices
                     contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                    price={price}
+                    price={effectivePrice}
                   />
                 </div>
               </div>
@@ -108,7 +121,7 @@ const CartPage = () => {
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
-                <Prices price={price} className="mt-0.5" />
+                <Prices price={effectivePrice} className="mt-0.5" />
               </div>
             </div>
           </div>
@@ -129,9 +142,23 @@ const CartPage = () => {
   };
 
   const calculateSubtotal = () => {
+    const nowUTC = new Date(new Date().toISOString());
+
     return cartProducts.reduce((total, item) => {
       const quantity = quantities[item.id] || item.quantity || 1;
-      return total + item.price * quantity;
+      const start = item.flashSale?.flashSaleStartTime
+        ? new Date(item.flashSale.flashSaleStartTime)
+        : null;
+      const end = item.flashSale?.flashSaleEndTime
+        ? new Date(item.flashSale.flashSaleEndTime)
+        : null;
+
+      const isFlashSale = start && end && nowUTC >= start && nowUTC <= end;
+      const effectivePrice = isFlashSale
+        ? item.price * (1 - item.flashSale.flashSaleDiscount / 100)
+        : item.price * (1 - Number(item.perDiscount) / 100);
+
+      return total + effectivePrice * quantity;
     }, 0);
   };
 
