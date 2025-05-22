@@ -83,7 +83,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
     };
 
     let slider = new Glide(sliderRef.current, OPTIONS);
-    slider.mount();
+    slider?.mount();
     setIsSliderMounted(true);
     setIsShow(true);
 
@@ -112,6 +112,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
         >
           {heading || `New Arrivals`}
         </Heading>
+
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
             {isLoading ? (
@@ -155,8 +156,10 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
               </li>
             ) : !productRecommend?.data?.recommendations?.length ? (
               // Empty state
-              <li className={`glide__slide ${itemClassName} col-span-full`}>
-                <div className="flex flex-col items-center justify-center py-12">
+              <li
+                className={`glide__slide ${itemClassName} w-full col-span-full flex justify-center items-center`}
+              >
+                <div className="flex flex-col items-center justify-center py-12 w-full max-w-3xl mx-auto">
                   <svg
                     className="w-16 h-16 text-gray-400"
                     fill="none"

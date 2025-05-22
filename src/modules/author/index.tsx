@@ -26,7 +26,7 @@ const AuthorsPage = () => {
     name: "",
     nationality: "",
     page: 1,
-    pageSize: 12,
+    pageSize: 20,
   });
 
   const {
@@ -135,7 +135,7 @@ const AuthorsPage = () => {
         Showing {authors.length} of {totalElements} authors
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
         {authors.map((author: Author) => (
           <div
             key={author.id}
@@ -162,13 +162,14 @@ const AuthorsPage = () => {
                 {author.nationality} • {new Date(author.date).getFullYear()}
               </p>
 
-              <p className="text-gray-700 mb-4 line-clamp-3">
-                {author.biography}
-              </p>
+              <p
+                className="text-gray-700 mb-4 line-clamp-3"
+                dangerouslySetInnerHTML={{ __html: author.biography }}
+              />
 
-              <button className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors">
+              {/* <button className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors">
                 View Books
-              </button>
+              </button> */}
             </div>
           </div>
         ))}
