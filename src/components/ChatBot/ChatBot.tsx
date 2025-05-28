@@ -210,7 +210,7 @@ const ChatBot: React.FC = () => {
                       onComplete={() => handleTypingComplete(index)}
                     />
                   ) : (
-                    message.content
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
                   )}
                 </div>
               </div>
