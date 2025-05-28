@@ -5,10 +5,12 @@ import ReactMarkdown from "react-markdown";
 import { askChatBot } from "@/services/ai.service";
 import { ChatBotIcon } from "@/shared/Icons/ChatBotIcon";
 import { SendMessageIcon } from "@/shared/Icons/ChatBotIcon copy";
+import TypingEffect from "./TypingEffect";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  isTyping?: boolean;
 }
 
 // Suggested questions to help users get started
@@ -44,7 +46,7 @@ const ChatBot: React.FC = () => {
         if (chatWindowRef.current) {
           chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
         }
-      }, 100); // Small delay to ensure DOM is updated
+      }, 100);
     }
   }, [isOpen]);
 
@@ -53,6 +55,8 @@ const ChatBot: React.FC = () => {
 
     const userMessage = messageToSend;
     setInputMessage("");
+
+    // Add user message
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setIsLoading(true);
 
@@ -63,9 +67,14 @@ const ChatBot: React.FC = () => {
       });
 
       if (response.data.success) {
+        // Add assistant message with typing effect
         setMessages((prev) => [
           ...prev,
-          { role: "assistant", content: response.data.answer },
+          {
+            role: "assistant",
+            content: response.data.answer,
+            isTyping: true,
+          },
         ]);
       }
     } catch (error) {
@@ -75,6 +84,7 @@ const ChatBot: React.FC = () => {
         {
           role: "assistant",
           content: "Sorry, an error occurred. Please try again later.",
+          isTyping: true,
         },
       ]);
     } finally {
@@ -90,12 +100,17 @@ const ChatBot: React.FC = () => {
   };
 
   const handleSuggestedQuestion = (question: string) => {
-    // Send the suggested question immediately
     handleSendMessage(question);
   };
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleTypingComplete = (index: number) => {
+    setMessages((prev) =>
+      prev.map((msg, i) => (i === index ? { ...msg, isTyping: false } : msg))
+    );
   };
 
   return (
@@ -176,7 +191,7 @@ const ChatBot: React.FC = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${
+                className={`flex text-[13px] ${
                   message.role === "user" ? "justify-end" : "justify-start"
                 } animate-fade-in`}
               >
@@ -187,8 +202,13 @@ const ChatBot: React.FC = () => {
                       : "bg-gray-100 dark:bg-neutral-700"
                   }`}
                 >
-                  {message.role === "assistant" ? (
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  {message.role === "assistant" && message.isTyping ? (
+                    <TypingEffect
+                      text={message.content}
+                      isMarkdown={true}
+                      onTyping={scrollToBottom}
+                      onComplete={() => handleTypingComplete(index)}
+                    />
                   ) : (
                     message.content
                   )}
@@ -210,7 +230,7 @@ const ChatBot: React.FC = () => {
           </div>
 
           {/* Chat Input */}
-          <div className="p-4 border-t dark:border-neutral-700 bg-white dark:bg-neutral-800">
+          <div className="text-[13px] p-4 border-t dark:border-neutral-700 bg-white dark:bg-neutral-800">
             <div className="flex space-x-2">
               <textarea
                 value={inputMessage}
